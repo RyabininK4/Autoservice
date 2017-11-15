@@ -133,8 +133,8 @@
 		3C1A55491FB23715009E8AB3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				3C1A551F1FB232CB009E8AB3 /* Authorization.storyboard */,
 				3C1A55241FB232CB009E8AB3 /* LaunchScreen.storyboard */,
+				3C1A551F1FB232CB009E8AB3 /* Authorization.storyboard */,
 				3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */,
 			);
 			path = UI;
