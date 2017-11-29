@@ -16,6 +16,7 @@ class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        addKeyboardHideHanlder()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
