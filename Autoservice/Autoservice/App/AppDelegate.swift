@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else
         {
             let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
-            let homeVC = mainStoryBoard.instantiateViewController(withIdentifier: "HomeNavigationController")
+            let homeVC = mainStoryBoard.instantiateViewController(withIdentifier: "HomeViewController")
             self.window!.rootViewController = homeVC
             self.window?.makeKeyAndVisible()
         }
