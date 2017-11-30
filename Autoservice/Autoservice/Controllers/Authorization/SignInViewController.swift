@@ -24,9 +24,9 @@ class SignInViewController: BaseViewController {
             self.present(alertDialog, animated: true, completion: nil)
         }
         else{
-            let requestResultByLogin = RequestManager.loginUser(name: login.text!, password: password.text!)
+            let requestResultByLogin = RequestManager.loginUser(login: login.text!, password: password.text!)
             
-            if (requestResultByLogin.LoginState == RequestManager.LoginState.Success){
+            if (requestResultByLogin.LoginState == Enums.LoginState.Success){
                 UserDefaults.standard.set(requestResultByLogin.userId, forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
                 if let homePage = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController"){
                     self.present(homePage, animated:true)

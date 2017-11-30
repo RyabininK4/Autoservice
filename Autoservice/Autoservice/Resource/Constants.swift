@@ -13,4 +13,5 @@ public class Constants{
     
     public static let USER_ID_USER_DEFAULTS_KEY:String = "userID"
     public static let INVALIDE_INT_VALUE:Int = -1
+    
 }

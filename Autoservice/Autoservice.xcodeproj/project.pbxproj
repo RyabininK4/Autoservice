@@ -18,6 +18,9 @@
 		3CB35C911FB8DA7900E68BFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB35C901FB8DA7800E68BFB /* Assets.xcassets */; };
 		F346EDC11FCD851D00975B71 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346EDC01FCD851D00975B71 /* RequestManager.swift */; };
 		F346EDC31FCD997300975B71 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346EDC21FCD997300975B71 /* AlertManager.swift */; };
+		F35B40741FD00D9B00132770 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40731FD00D9B00132770 /* UserData.swift */; };
+		F35B40761FD00FB900132770 /* RecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40751FD00FB900132770 /* RecordData.swift */; };
+		F35B40781FD0100300132770 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40771FD0100300132770 /* Enums.swift */; };
 		F37551781FCDC13100A30E0A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37551771FCDC13100A30E0A /* HomeViewController.swift */; };
 		F375517A1FCEDDC800A30E0A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37551791FCEDDC800A30E0A /* Constants.swift */; };
 		F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F375517C1FCF289300A30E0A /* ProfileViewController.swift */; };
@@ -59,6 +62,9 @@
 		3CB35C901FB8DA7800E68BFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F346EDC01FCD851D00975B71 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		F346EDC21FCD997300975B71 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		F35B40731FD00D9B00132770 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		F35B40751FD00FB900132770 /* RecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordData.swift; sourceTree = "<group>"; };
+		F35B40771FD0100300132770 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		F37551771FCDC13100A30E0A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F37551791FCEDDC800A30E0A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F375517C1FCF289300A30E0A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 		3C1A551A1FB232CB009E8AB3 /* Autoservice */ = {
 			isa = PBXGroup;
 			children = (
+				F35B40721FD00D7C00132770 /* Models */,
 				F346EDBF1FCD84F300975B71 /* Helpers */,
 				3C1A554C1FB23730009E8AB3 /* App */,
 				3C1A554B1FB23724009E8AB3 /* Cell */,
@@ -210,6 +217,16 @@
 				F346EDC21FCD997300975B71 /* AlertManager.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F35B40721FD00D7C00132770 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F35B40731FD00D9B00132770 /* UserData.swift */,
+				F35B40751FD00FB900132770 /* RecordData.swift */,
+				F35B40771FD0100300132770 /* Enums.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F375517B1FCF27D300A30E0A /* Profile */ = {
@@ -381,9 +398,12 @@
 			files = (
 				F3FC6DF81FCDB0DC0084426D /* BaseNavigationController.swift in Sources */,
 				F346EDC11FCD851D00975B71 /* RequestManager.swift in Sources */,
+				F35B40781FD0100300132770 /* Enums.swift in Sources */,
 				F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */,
 				3C1A55501FB2376A009E8AB3 /* SignUpViewController.swift in Sources */,
+				F35B40761FD00FB900132770 /* RecordData.swift in Sources */,
 				F37551781FCDC13100A30E0A /* HomeViewController.swift in Sources */,
+				F35B40741FD00D9B00132770 /* UserData.swift in Sources */,
 				F346EDC31FCD997300975B71 /* AlertManager.swift in Sources */,
 				3C1A55531FB23A00009E8AB3 /* BaseViewController.swift in Sources */,
 				3C1A551E1FB232CB009E8AB3 /* SignInViewController.swift in Sources */,

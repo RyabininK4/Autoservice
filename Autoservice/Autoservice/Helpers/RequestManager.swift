@@ -10,22 +10,10 @@ import Foundation
 
 class RequestManager {
     
-    //Login state
-    public enum LoginState{
-        case Success
-        case FailedWithError
-        case FailedWithInvalideLogin
-    }
-    
-    public enum RegisterState{
-        case Success
-        case AllreadyRegistred
-        case FailedToRegister
-    }
-    
     //Server
-    private static let _serverAddress:String = "http://192.168.1.70"
-    private static let _serverPort:String = ":8080"
+    private static let _serverScheme = "http"
+    private static let _serverAddress:String = "192.168.52.176"
+    private static let _serverPort:String = "8080"
     
     //Functions names
     private static let _registerFunc:String = "/register"
@@ -34,18 +22,20 @@ class RequestManager {
     private static let _verifyServ:String = "/verifyserv"
     private static let _delServ:String = "/delserv"
     private static let _getServ:String = "/getserv"
+    private static let _getUserData:String = "/getUserData"
     
     //Attributes names
-    private static let _nameAttr:String = "name="
-    private static let _mailAttr:String = "mail="
-    private static let _phoneAttr:String = "phone="
+    private static let _nameAttr:String = "name"
+    private static let _mailAttr:String = "mail"
+    private static let _phoneAttr:String = "phone"
     private static let _dateAttr:String = "date="
     private static let _timeAttr:String = "time="
     private static let _autoAttr:String = "auto="
     private static let _typeAttr:String = "type="
     private static let _stateAttr:String = "state="
-    private static let _loginAttr:String = "login="
-    private static let _passwordAttr:String = "password="
+    private static let _loginAttr:String = "login"
+    private static let _passwordAttr:String = "password"
+    private static let _idAttr:String = "id"
     
     //Symbols Helpers
     private static let _beforeAttributesSymbol:String = "?"
@@ -66,20 +56,20 @@ class RequestManager {
     
     //Subclasses
     public class LoginResult{
-        var LoginState:LoginState
+        var LoginState:Enums.LoginState
         var userId:Int
         
-        public init(inputLoginState:LoginState,inputUserId:Int = Constants.INVALIDE_INT_VALUE){
+        public init(inputLoginState:Enums.LoginState,inputUserId:Int = Constants.INVALIDE_INT_VALUE){
             LoginState = inputLoginState
             userId = inputUserId
         }
     }
     
     public class RegisterResult{
-        var RegisterState:RegisterState
+        var RegisterState:Enums.RegisterState
         var userId:Int
         
-        public init(inputRegisterState:RegisterState,inputUserId:Int = Constants.INVALIDE_INT_VALUE){
+        public init(inputRegisterState:Enums.RegisterState,inputUserId:Int = Constants.INVALIDE_INT_VALUE){
             RegisterState = inputRegisterState
             userId = inputUserId
         }
@@ -87,16 +77,15 @@ class RequestManager {
     
     //Example 127.0.0.1:8080/register?login=123&password=123
     public static func registerUser(name:String,password:String,email:String,phoneNumber:String,login:String)->RegisterResult{
-        //TODO ADD EMAIL AND PHONE NUMBER
-    
-        let requestString = _serverAddress + _serverPort +
-            _registerFunc + _beforeAttributesSymbol +
-            _nameAttr + name.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)! + _concatAttributesSymbol +
-            _passwordAttr + password + _concatAttributesSymbol +
-            _loginAttr + login + _concatAttributesSymbol +
-            _phoneAttr + phoneNumber + _concatAttributesSymbol +
-            _mailAttr + email
-        let requestResult =  MakeRequest(requestString)
+        
+        var items:[URLQueryItem] = []
+        items.append(URLQueryItem(name:_nameAttr, value: name))
+        items.append(URLQueryItem(name:_passwordAttr, value: password))
+        items.append(URLQueryItem(name:_loginAttr, value: login))
+        items.append(URLQueryItem(name:_phoneAttr, value: phoneNumber))
+        items.append(URLQueryItem(name:_mailAttr, value: email))
+        
+        let requestResult =  MakeRequest(_registerFunc,items)
         
         guard let requestMessage = requestResult["message"] as? String else {
             print(_gettingMsgFromJSONError)
@@ -119,39 +108,49 @@ class RequestManager {
     }
     
     //127.0.0.1:8080/login?login=123&password=123
-    public static func loginUser(name:String,password:String)->LoginResult{
+    public static func loginUser(login:String,password:String)->LoginResult{
         
-        let requestString = _serverAddress + _serverPort + _loginServ + _beforeAttributesSymbol +
-            _loginAttr + name + _concatAttributesSymbol + _passwordAttr + password
+        var items:[URLQueryItem] = []
+        items.append(URLQueryItem(name:_passwordAttr, value: password))
+        items.append(URLQueryItem(name:_loginAttr, value: login))
         
-        let requestResult =  MakeRequest(requestString)
+        let requestResult =  MakeRequest(_loginServ,items)
+        
         guard let requestMessage = requestResult["message"] as? String else {
             print(_gettingMsgFromJSONError)
-            return LoginResult(inputLoginState: RequestManager.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
+            return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
         }
         if let requestError = requestResult["Error"] as? String {
             print(requestError)
-            return LoginResult(inputLoginState: RequestManager.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
+            return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
         }
         if requestMessage.contains(_errorPartOfErrorMessage) ||
             requestMessage.contains(_accoutExistingErrorPart) ||
             requestMessage.contains(_wrongPasswordError){
-            return LoginResult(inputLoginState: RequestManager.LoginState.FailedWithInvalideLogin, inputUserId: Constants.INVALIDE_INT_VALUE)
+            return LoginResult(inputLoginState: Enums.LoginState.FailedWithInvalideLogin, inputUserId: Constants.INVALIDE_INT_VALUE)
         }
         else{
             if let userID = requestResult["id"] as? String , let userIDValue = Int(userID) {
-                return LoginResult(inputLoginState: RequestManager.LoginState.Success , inputUserId: userIDValue)
+                return LoginResult(inputLoginState: Enums.LoginState.Success , inputUserId: userIDValue)
             }
             else {
-                return LoginResult(inputLoginState: RequestManager.LoginState.FailedWithError , inputUserId: Constants.INVALIDE_INT_VALUE)
+                return LoginResult(inputLoginState: Enums.LoginState.FailedWithError , inputUserId: Constants.INVALIDE_INT_VALUE)
             }
         }
     }
     
-    private static func MakeRequest(_ inputRequestString:String)->[String: Any]{
+    public static func getUserData(userID:Int)->[String:Any]{
+        let requestString = _serverAddress + _serverPort + _getUserData + _beforeAttributesSymbol + _idAttr + String(userID)
+        
+        var items:[URLQueryItem] = []
+        items.append(URLQueryItem(name:_idAttr, value: String(userID)))
+        return MakeRequest(_getUserData,items)
+    }
+    
+    private static func MakeRequest(_ path:String,_ queryItems:[URLQueryItem])->[String: Any]{
         let semaphore = DispatchSemaphore(value: 0)
         var messageResult:[String:Any] = ["Error":"Failed To Create request"]
-        guard let request = CreateRequest(inputRequestString) else {
+        guard let request = CreateRequest(path, queryItems) else {
             print("Error: cannot connect to server,check is it available")
             return messageResult
         }
@@ -166,12 +165,15 @@ class RequestManager {
         return messageResult
     }
     
-    private static func CreateRequest(_ stringForRequest:String)->URLRequest?{
-        guard let url = URL(string: stringForRequest) else {
-            print("Error: cannot create URL")
-            return nil
-        }
-        return URLRequest(url: url,timeoutInterval:TimeInterval(2) )
+    private static func CreateRequest(_ path:String,_ queryItems:[URLQueryItem] )->URLRequest?{
+        var urlComponents = URLComponents()
+        urlComponents.scheme = _serverScheme
+        urlComponents.host = _serverAddress
+        urlComponents.port = Int(_serverPort)
+        urlComponents.path = path
+        urlComponents.queryItems = queryItems
+        let resultUrl = urlComponents.url
+        return URLRequest(url: resultUrl!,timeoutInterval:TimeInterval(2) )
     }
     
     private static func InitializeConnection(urlRequest:URLRequest,completion: @escaping (_ message: [String: Any]) -> ())  {
