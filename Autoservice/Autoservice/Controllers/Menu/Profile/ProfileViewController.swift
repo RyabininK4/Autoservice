@@ -21,6 +21,8 @@ class ProfileViewController: BaseViewController {
     private let _stateKey:String = "state"
     private let _loginKey:String = "login"
     private let _errorKey:String = "Error"
+    
+    private var currentUserId:Int = Constants.INVALIDE_INT_VALUE
 
     
     //Outlets and Actions
@@ -31,7 +33,11 @@ class ProfileViewController: BaseViewController {
     @IBOutlet weak var Phone: UITextField!
     
     @IBAction func SaveChanges(_ sender: Any) {
-        //TODO Save changes
+        let updResult = RequestManager.updateUserData(userID: currentUserId, userLogin: Login.text, userFullName: FullName.text, userEmail: Email.text, userPhone: Phone.text)
+        let alertTitle = (updResult) ? "Успешно" : "Ошибка"
+        let alertMessage = (updResult) ? "Данные обновлены" : "Неверные данные, возможно данный логин уже занят"
+        let alertView = AlertManager.CreateDialog(inputTitle: alertTitle, inputMessage: alertMessage, actionsDict: [ "OK" : {_ in }])
+        present(alertView, animated: true)
     }
     
     @IBOutlet weak var Login: UITextField!
@@ -43,17 +49,20 @@ class ProfileViewController: BaseViewController {
             present(loginVC, animated: true)
         }
     }
-
     
-    
+    //Lifecycles methods
     override func viewDidLoad() {
         super.viewDidLoad()
         InitialiseUI()
+        GetCurrentUserID()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         Initialise()
     }
     
+    
+    //Private
     private func Initialise(){
         FetchCurrentUserData()
     }
@@ -72,8 +81,12 @@ class ProfileViewController: BaseViewController {
         addKeyboardHideHanlder()
     }
     
+    private func GetCurrentUserID(){
+        currentUserId =  UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
+    }
+    
     private func FetchCurrentUserData(){
-        let currentUserId =  UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
+        //TODO : CHECK SERVER CONNECT !!!!!!!!
         let userDataFromServer = RequestManager.getUserData(userID: currentUserId)
         if let userName = userDataFromServer[_nameKey] as? String , userDataFromServer[_nameKey] as! String != "null"{
             FullName.text = userName

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car" translatesAutoresizingMaskIntoConstraints="NO" id="C8b-Oj-8Ft">
+                                <rect key="frame" x="50" y="206" width="275" height="275"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="C8b-Oj-8Ft" secondAttribute="height" multiplier="1:1" id="oqv-uH-SHA"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AUTOSERVICE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAs-dC-hij">
+                                <rect key="frame" x="92.5" y="146" width="190" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="0nu-K7-CV7"/>
+                                    <constraint firstAttribute="width" constant="190" id="MbM-lG-xgf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="C8b-Oj-8Ft" secondAttribute="trailing" constant="50" id="AnD-PJ-b2F"/>
+                            <constraint firstItem="C8b-Oj-8Ft" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="Wbm-zI-lUj"/>
+                            <constraint firstItem="mAs-dC-hij" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="aGD-eG-ju1"/>
+                            <constraint firstItem="C8b-Oj-8Ft" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bTs-Sr-Syw"/>
+                            <constraint firstItem="C8b-Oj-8Ft" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="o0h-wh-0kd"/>
+                            <constraint firstItem="C8b-Oj-8Ft" firstAttribute="top" secondItem="mAs-dC-hij" secondAttribute="bottom" constant="20" id="tgC-k5-p8x"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="car" width="512" height="512"/>
+    </resources>
+</document>

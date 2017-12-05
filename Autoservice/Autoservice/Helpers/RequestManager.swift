@@ -12,7 +12,7 @@ class RequestManager {
     
     //Server
     private static let _serverScheme = "http"
-    private static let _serverAddress:String = "192.168.52.176"
+    private static let _serverAddress:String = "192.168.52.59"
     private static let _serverPort:String = "8080"
     
     //Functions names
@@ -23,6 +23,7 @@ class RequestManager {
     private static let _delServ:String = "/delserv"
     private static let _getServ:String = "/getserv"
     private static let _getUserData:String = "/getUserData"
+    private static let _updUserData:String = "/updUserData"
     
     //Attributes names
     private static let _nameAttr:String = "name"
@@ -75,7 +76,8 @@ class RequestManager {
         }
     }
     
-    //Example 127.0.0.1:8080/register?login=123&password=123
+    //Public
+    
     public static func registerUser(name:String,password:String,email:String,phoneNumber:String,login:String)->RegisterResult{
         
         var items:[URLQueryItem] = []
@@ -87,7 +89,7 @@ class RequestManager {
         
         let requestResult =  MakeRequest(_registerFunc,items)
         
-        guard let requestMessage = requestResult["message"] as? String else {
+        guard let requestMessage = requestResult["Id"] as? String else {
             print(_gettingMsgFromJSONError)
             return RegisterResult(inputRegisterState: .FailedToRegister)
         }
@@ -107,7 +109,6 @@ class RequestManager {
         
     }
     
-    //127.0.0.1:8080/login?login=123&password=123
     public static func loginUser(login:String,password:String)->LoginResult{
         
         var items:[URLQueryItem] = []
@@ -116,7 +117,7 @@ class RequestManager {
         
         let requestResult =  MakeRequest(_loginServ,items)
         
-        guard let requestMessage = requestResult["message"] as? String else {
+        guard let requestMessage = requestResult["Id"] as? String else {
             print(_gettingMsgFromJSONError)
             return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
         }
@@ -130,7 +131,7 @@ class RequestManager {
             return LoginResult(inputLoginState: Enums.LoginState.FailedWithInvalideLogin, inputUserId: Constants.INVALIDE_INT_VALUE)
         }
         else{
-            if let userID = requestResult["id"] as? String , let userIDValue = Int(userID) {
+            if let userID = requestResult["Id"] as? String , let userIDValue = Int(userID) {
                 return LoginResult(inputLoginState: Enums.LoginState.Success , inputUserId: userIDValue)
             }
             else {
@@ -140,12 +141,27 @@ class RequestManager {
     }
     
     public static func getUserData(userID:Int)->[String:Any]{
-        let requestString = _serverAddress + _serverPort + _getUserData + _beforeAttributesSymbol + _idAttr + String(userID)
-        
         var items:[URLQueryItem] = []
         items.append(URLQueryItem(name:_idAttr, value: String(userID)))
         return MakeRequest(_getUserData,items)
     }
+    
+    public static func updateUserData(userID:Int,userLogin:String?,
+                                      userFullName:String?,userEmail:String?,userPhone:String?,userPassword:String?=nil)->Bool{
+        var items:[URLQueryItem] = []
+        items.append(URLQueryItem(name:_idAttr, value: String(userID)))
+        if(userLogin != nil && !(userLogin?.isEmpty)!) { items.append(URLQueryItem(name:_loginAttr, value: userLogin)) }
+        if(userPassword != nil && !(userPassword?.isEmpty)!) { items.append(URLQueryItem(name:_passwordAttr, value: userPassword)) }
+        if(userFullName != nil && !(userFullName?.isEmpty)!) { items.append(URLQueryItem(name:_nameAttr, value: userFullName)) }
+        if(userEmail != nil && !(userEmail?.isEmpty)!) { items.append(URLQueryItem(name:_mailAttr, value: userEmail)) }
+        if(userPhone != nil && !(userPhone?.isEmpty)!) { items.append(URLQueryItem(name:_phoneAttr, value: userPhone)) }
+        
+        
+        let requestResult = MakeRequest(_updUserData,items)
+        return (requestResult["Error"] as? String == nil)
+    }
+    
+    //Private
     
     private static func MakeRequest(_ path:String,_ queryItems:[URLQueryItem])->[String: Any]{
         let semaphore = DispatchSemaphore(value: 0)
