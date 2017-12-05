@@ -21,6 +21,9 @@
 		F35B40741FD00D9B00132770 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40731FD00D9B00132770 /* UserData.swift */; };
 		F35B40761FD00FB900132770 /* RecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40751FD00FB900132770 /* RecordData.swift */; };
 		F35B40781FD0100300132770 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40771FD0100300132770 /* Enums.swift */; };
+		F36F930F1FD17E6C0040C370 /* RepairTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F930E1FD17E6C0040C370 /* RepairTypeCell.swift */; };
+		F36F93131FD183210040C370 /* AddingRepairRecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F93121FD183210040C370 /* AddingRepairRecordTableViewController.swift */; };
+		F36F93191FD1ABDC0040C370 /* RepairTypeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F93181FD1ABDC0040C370 /* RepairTypeDetailViewController.swift */; };
 		F37551781FCDC13100A30E0A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37551771FCDC13100A30E0A /* HomeViewController.swift */; };
 		F375517A1FCEDDC800A30E0A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37551791FCEDDC800A30E0A /* Constants.swift */; };
 		F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F375517C1FCF289300A30E0A /* ProfileViewController.swift */; };
@@ -65,6 +68,9 @@
 		F35B40731FD00D9B00132770 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		F35B40751FD00FB900132770 /* RecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordData.swift; sourceTree = "<group>"; };
 		F35B40771FD0100300132770 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		F36F930E1FD17E6C0040C370 /* RepairTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RepairTypeCell.swift; path = Autoservice/Models/RepairTypeCell.swift; sourceTree = SOURCE_ROOT; };
+		F36F93121FD183210040C370 /* AddingRepairRecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingRepairRecordTableViewController.swift; sourceTree = "<group>"; };
+		F36F93181FD1ABDC0040C370 /* RepairTypeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepairTypeDetailViewController.swift; sourceTree = "<group>"; };
 		F37551771FCDC13100A30E0A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F37551791FCEDDC800A30E0A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F375517C1FCF289300A30E0A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -151,8 +157,7 @@
 		3C1A55491FB23715009E8AB3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				3C1A55241FB232CB009E8AB3 /* LaunchScreen.storyboard */,
-				3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */,
+				F35B40791FD156CA00132770 /* Storyboards */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -160,8 +165,8 @@
 		3C1A554A1FB2371E009E8AB3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F3FC6DF01FCDADD10084426D /* Menu */,
 				3C1A55511FB238F0009E8AB3 /* Base */,
+				F3FC6DF01FCDADD10084426D /* Menu */,
 				3C1A554E1FB23752009E8AB3 /* Authorization */,
 			);
 			path = Controllers;
@@ -170,6 +175,7 @@
 		3C1A554B1FB23724009E8AB3 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				F36F930E1FD17E6C0040C370 /* RepairTypeCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -185,6 +191,7 @@
 		3C1A554D1FB23737009E8AB3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F35B40771FD0100300132770 /* Enums.swift */,
 				3CB35C901FB8DA7800E68BFB /* Assets.xcassets */,
 				3C1A55271FB232CB009E8AB3 /* Info.plist */,
 				F37551791FCEDDC800A30E0A /* Constants.swift */,
@@ -224,9 +231,17 @@
 			children = (
 				F35B40731FD00D9B00132770 /* UserData.swift */,
 				F35B40751FD00FB900132770 /* RecordData.swift */,
-				F35B40771FD0100300132770 /* Enums.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F35B40791FD156CA00132770 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				3C1A55241FB232CB009E8AB3 /* LaunchScreen.storyboard */,
+				3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		F375517B1FCF27D300A30E0A /* Profile */ = {
@@ -250,6 +265,8 @@
 		F3FC6DF11FCDADE20084426D /* AddingRecords */ = {
 			isa = PBXGroup;
 			children = (
+				F36F93121FD183210040C370 /* AddingRepairRecordTableViewController.swift */,
+				F36F93181FD1ABDC0040C370 /* RepairTypeDetailViewController.swift */,
 			);
 			path = AddingRecords;
 			sourceTree = "<group>";
@@ -402,12 +419,15 @@
 				F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */,
 				3C1A55501FB2376A009E8AB3 /* SignUpViewController.swift in Sources */,
 				F35B40761FD00FB900132770 /* RecordData.swift in Sources */,
+				F36F93191FD1ABDC0040C370 /* RepairTypeDetailViewController.swift in Sources */,
 				F37551781FCDC13100A30E0A /* HomeViewController.swift in Sources */,
 				F35B40741FD00D9B00132770 /* UserData.swift in Sources */,
+				F36F930F1FD17E6C0040C370 /* RepairTypeCell.swift in Sources */,
 				F346EDC31FCD997300975B71 /* AlertManager.swift in Sources */,
 				3C1A55531FB23A00009E8AB3 /* BaseViewController.swift in Sources */,
 				3C1A551E1FB232CB009E8AB3 /* SignInViewController.swift in Sources */,
 				3C1A551C1FB232CB009E8AB3 /* AppDelegate.swift in Sources */,
+				F36F93131FD183210040C370 /* AddingRepairRecordTableViewController.swift in Sources */,
 				F375517A1FCEDDC800A30E0A /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
