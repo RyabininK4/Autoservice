@@ -14,6 +14,9 @@
 		3C1A553C1FB232CC009E8AB3 /* AutoserviceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A553B1FB232CC009E8AB3 /* AutoserviceUITests.swift */; };
 		3C1A55501FB2376A009E8AB3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A554F1FB2376A009E8AB3 /* SignUpViewController.swift */; };
 		3C1A55531FB23A00009E8AB3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A55521FB23A00009E8AB3 /* BaseViewController.swift */; };
+		3C979D2C1FD73AE2001197F2 /* Authorization.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C979D2A1FD73AE2001197F2 /* Authorization.storyboard */; };
+		3C979D2F1FD741B5001197F2 /* UserRecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C979D2E1FD741B5001197F2 /* UserRecordsViewController.swift */; };
+		3C979D311FD74257001197F2 /* UserRecordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C979D301FD74257001197F2 /* UserRecordsTableViewCell.swift */; };
 		3CB35C8F1FB8D56500E68BFB /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */; };
 		3CB35C911FB8DA7900E68BFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB35C901FB8DA7800E68BFB /* Assets.xcassets */; };
 		F346EDC11FCD851D00975B71 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346EDC01FCD851D00975B71 /* RequestManager.swift */; };
@@ -61,6 +64,9 @@
 		3C1A553D1FB232CC009E8AB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C1A554F1FB2376A009E8AB3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3C1A55521FB23A00009E8AB3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		3C979D2B1FD73AE2001197F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Authorization.storyboard; sourceTree = "<group>"; };
+		3C979D2E1FD741B5001197F2 /* UserRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecordsViewController.swift; sourceTree = "<group>"; };
+		3C979D301FD74257001197F2 /* UserRecordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserRecordsTableViewCell.swift; path = Controllers/UserRecords/UserRecordsTableViewCell.swift; sourceTree = "<group>"; };
 		3CB35C8E1FB8D56500E68BFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Menu.storyboard; sourceTree = "<group>"; };
 		3CB35C901FB8DA7800E68BFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F346EDC01FCD851D00975B71 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
@@ -125,9 +131,10 @@
 		3C1A551A1FB232CB009E8AB3 /* Autoservice */ = {
 			isa = PBXGroup;
 			children = (
+				3C979D291FD73421001197F2 /* Business */,
+				3C1A554C1FB23730009E8AB3 /* App */,
 				F35B40721FD00D7C00132770 /* Models */,
 				F346EDBF1FCD84F300975B71 /* Helpers */,
-				3C1A554C1FB23730009E8AB3 /* App */,
 				3C1A554B1FB23724009E8AB3 /* Cell */,
 				3C1A554A1FB2371E009E8AB3 /* Controllers */,
 				3C1A55491FB23715009E8AB3 /* UI */,
@@ -157,7 +164,9 @@
 		3C1A55491FB23715009E8AB3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				F35B40791FD156CA00132770 /* Storyboards */,
+				3C1A55241FB232CB009E8AB3 /* LaunchScreen.storyboard */,
+				3C979D2A1FD73AE2001197F2 /* Authorization.storyboard */,
+				3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -165,6 +174,7 @@
 		3C1A554A1FB2371E009E8AB3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3C979D2D1FD7418D001197F2 /* UserRecords */,
 				3C1A55511FB238F0009E8AB3 /* Base */,
 				F3FC6DF01FCDADD10084426D /* Menu */,
 				3C1A554E1FB23752009E8AB3 /* Authorization */,
@@ -176,8 +186,9 @@
 			isa = PBXGroup;
 			children = (
 				F36F930E1FD17E6C0040C370 /* RepairTypeCell.swift */,
+				3C979D301FD74257001197F2 /* UserRecordsTableViewCell.swift */,
 			);
-			path = Cell;
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		3C1A554C1FB23730009E8AB3 /* App */ = {
@@ -191,10 +202,8 @@
 		3C1A554D1FB23737009E8AB3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				F35B40771FD0100300132770 /* Enums.swift */,
 				3CB35C901FB8DA7800E68BFB /* Assets.xcassets */,
 				3C1A55271FB232CB009E8AB3 /* Info.plist */,
-				F37551791FCEDDC800A30E0A /* Constants.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -217,6 +226,23 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		3C979D291FD73421001197F2 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				F35B40771FD0100300132770 /* Enums.swift */,
+				F37551791FCEDDC800A30E0A /* Constants.swift */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
+		3C979D2D1FD7418D001197F2 /* UserRecords */ = {
+			isa = PBXGroup;
+			children = (
+				3C979D2E1FD741B5001197F2 /* UserRecordsViewController.swift */,
+			);
+			path = UserRecords;
+			sourceTree = "<group>";
+		};
 		F346EDBF1FCD84F300975B71 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,15 +259,6 @@
 				F35B40751FD00FB900132770 /* RecordData.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		F35B40791FD156CA00132770 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				3C1A55241FB232CB009E8AB3 /* LaunchScreen.storyboard */,
-				3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		F375517B1FCF27D300A30E0A /* Profile */ = {
@@ -386,6 +403,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C979D2C1FD73AE2001197F2 /* Authorization.storyboard in Resources */,
 				3C1A55261FB232CB009E8AB3 /* LaunchScreen.storyboard in Resources */,
 				3CB35C911FB8DA7900E68BFB /* Assets.xcassets in Resources */,
 				3CB35C8F1FB8D56500E68BFB /* Menu.storyboard in Resources */,
@@ -426,9 +444,11 @@
 				F346EDC31FCD997300975B71 /* AlertManager.swift in Sources */,
 				3C1A55531FB23A00009E8AB3 /* BaseViewController.swift in Sources */,
 				3C1A551E1FB232CB009E8AB3 /* SignInViewController.swift in Sources */,
+				3C979D2F1FD741B5001197F2 /* UserRecordsViewController.swift in Sources */,
 				3C1A551C1FB232CB009E8AB3 /* AppDelegate.swift in Sources */,
 				F36F93131FD183210040C370 /* AddingRepairRecordTableViewController.swift in Sources */,
 				F375517A1FCEDDC800A30E0A /* Constants.swift in Sources */,
+				3C979D311FD74257001197F2 /* UserRecordsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +490,14 @@
 				3C1A55251FB232CB009E8AB3 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		3C979D2A1FD73AE2001197F2 /* Authorization.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C979D2B1FD73AE2001197F2 /* Base */,
+			);
+			name = Authorization.storyboard;
 			sourceTree = "<group>";
 		};
 		3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */ = {
@@ -595,7 +623,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8YT73R22SD;
+				DEVELOPMENT_TEAM = LL8UYH94A9;
 				INFOPLIST_FILE = "$(SRCROOT)/Autoservice/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -611,7 +639,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8YT73R22SD;
+				DEVELOPMENT_TEAM = LL8UYH94A9;
 				INFOPLIST_FILE = "$(SRCROOT)/Autoservice/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

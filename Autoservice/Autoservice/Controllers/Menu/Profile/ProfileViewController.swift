@@ -23,7 +23,6 @@ class ProfileViewController: BaseViewController {
     private let _errorKey:String = "Error"
     
     private var currentUserId:Int = Constants.INVALIDE_INT_VALUE
-
     
     //Outlets and Actions
     @IBOutlet weak var ExitButtonOutlet: UIButton!
