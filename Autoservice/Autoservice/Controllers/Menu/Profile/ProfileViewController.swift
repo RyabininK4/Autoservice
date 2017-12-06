@@ -88,6 +88,11 @@ class ProfileViewController: BaseViewController {
     private func FetchCurrentUserData(){
         //TODO : CHECK SERVER CONNECT !!!!!!!!
         let userDataFromServer = RequestManager.getUserData(userID: currentUserId)
+        if (userDataFromServer["Error"] as? String == "Error: calling request"){
+            let alert = AlertManager.CreateDialog(inputTitle: "Ошибка подключения", inputMessage: "Проверьте подключение и повторите попытку", actionsDict: [ "Оффлайн режим" : {_ in },"Повторить попытку" : {_ ->Void in self.FetchCurrentUserData()}])
+            present(alert, animated: true)
+            return
+        }
         if let userName = userDataFromServer[_nameKey] as? String , userDataFromServer[_nameKey] as! String != "null"{
             FullName.text = userName
         }

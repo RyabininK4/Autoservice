@@ -10,69 +10,102 @@ import UIKit
 
 class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 	
-	@IBOutlet var RecordTableView: UITableView!
-	@IBOutlet var DatePicker: UIDatePicker!
-	@IBOutlet var PickerView: UIPickerView!
+    @IBAction func SendBarButton(_ sender: Any) {
+        var title:String = String()
+        var message:String = String()
+        
+        if (!RequestManager.createRecordOnServ(_record)){
+            title = "Ошибка"
+            message = "Неверные данные"
+        }
+        else{
+            title = "Успешно"
+            message = "Запрос успешно отправлен"
+        }
+        let alert = AlertManager.CreateDialog(inputTitle: title, inputMessage: message, actionsDict: ["OK":{_ in}])
+        present(alert, animated: true)
+    }
+    
+    @IBOutlet var RecordTableView: UITableView!
 	
-	private let dateFormatter = DateFormatter()
-	private let locale = NSLocale.current
-	private let toolBar = UIToolbar()
-	private var intervalPicker:UIPickerView = UIPickerView()
-	private let record:RecordData = RecordData()
-	
-	private let marks:[String] = ["Audi","Ford","Nissan"]
-	private let models:[String] = ["0","1","2"]
+	private let _dateFormatter = DateFormatter()
+	private let _locale = NSLocale.current
+	private let _toolBar = UIToolbar()
+    private var _pickerView = UIPickerView()
+    private var _datePicker = UIDatePicker()
+	private var _intervalPicker:UIPickerView = UIPickerView()
+	private let _record:RecordData = RecordData()
+	//TODO Check connection
+	private let _marks:[String] = RequestManager.getAutoBrands()
+	private var _models:[String] = []
 	
 	private let NAV_BAR_ITEM_HEIGHT:CGFloat = 44
+    
+    private enum PickerStyle:Int{
+        case Time = 1
+        case Mark = 2
+        case Model = 3
+    }
+    
+    private var _selectedTypeOfPicker:PickerStyle?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        InitializeToolBar()
 		InitIntervalPicker()
+        InitializeDatePicker()
+        InitializeValuePicker()
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        RecordTableView.reloadData()
+    }
 	
 	private func InitializeDatePicker(){
-		self.DatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200))
-		self.DatePicker?.backgroundColor = UIColor.white
-		self.DatePicker?.datePickerMode = UIDatePickerMode.dateAndTime
-		DatePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-		DatePicker.center = CGPoint(x:view.center.x,y: view.frame.height - DatePicker.frame.height/2 - NAV_BAR_ITEM_HEIGHT )
+		_datePicker = UIDatePicker(frame:CGRect(x: 0, y:  view.frame.height - 200 - NAV_BAR_ITEM_HEIGHT, width: self.view.frame.size.width, height: 200))
+		_datePicker.backgroundColor = UIColor.white
+		_datePicker.datePickerMode = .date
+		_datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        _datePicker.isHidden = true
+        self.view.addSubview(_datePicker)
 	}
 	
 	private func InitializeValuePicker(){
-		self.PickerView = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200))
-		self.PickerView?.backgroundColor = UIColor.white
-		self.PickerView.delegate = self
-		self.PickerView.dataSource = self
-		PickerView.center = CGPoint(x:view.center.x,y: view.frame.height - DatePicker.frame.height/2 - NAV_BAR_ITEM_HEIGHT )
+		_pickerView.backgroundColor = UIColor.white
+        _pickerView = UIPickerView(frame:CGRect(x: 0, y: view.frame.height - 200 - NAV_BAR_ITEM_HEIGHT, width: self.view.frame.width, height: 200))
+        _pickerView.isHidden = true
+        self.view.addSubview(_pickerView)
 	}
 	
 	private func InitializeToolBar(){
 		
-		toolBar.barStyle = .default
-		toolBar.isTranslucent = true
-		toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
-		toolBar.sizeToFit()
+		_toolBar.barStyle = .default
+		_toolBar.isTranslucent = true
+		_toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
+		_toolBar.sizeToFit()
 		
 		// Adding Button ToolBar
 		let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(AddingRepairRecordTableViewController.doneClick))
 		let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 		let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(AddingRepairRecordTableViewController.cancelClick))
-		toolBar.setItems([cancelButton, spaceButton, doneButton], animated: true)
-		toolBar.isUserInteractionEnabled = true
-		toolBar.frame = CGRect(x:0,y:view.frame.height - 200 - toolBar.frame.height - NAV_BAR_ITEM_HEIGHT,
-							   width:view.frame.width,height:toolBar.frame.height)
+		_toolBar.setItems([cancelButton, spaceButton, doneButton], animated: true)
+		_toolBar.isUserInteractionEnabled = true
+		_toolBar.frame = CGRect(x:0,y:view.frame.height - 200 - _toolBar.frame.height - NAV_BAR_ITEM_HEIGHT,
+							   width:view.frame.width,height:_toolBar.frame.height)
+        _toolBar.isHidden = true
+        self.view.addSubview(_toolBar)
 	}
 	
 	private func InitIntervalPicker(){
-		intervalPicker.delegate = self
-		intervalPicker.dataSource = self
+		_intervalPicker.delegate = self
+		_intervalPicker.dataSource = self
 	}
 	
 	@objc func datePickerValueChanged(_ sender: UIDatePicker){
 		let dateFormatter: DateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "MM/dd/yyyy"
+		dateFormatter.dateFormat = "dd/MM/yyyy"
 		let selectedDate: String = dateFormatter.string(from: sender.date)
-		record.Date = selectedDate
+		_record.Date = selectedDate
 		RecordTableView.reloadData()
 	}
 	
@@ -91,16 +124,16 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		switch indexPath.row {
 		case Enums.CellInAddingRecord.Date.rawValue:
 			cellIdentifier = "RecordDate"
-			detailCellInfo = record.Date
+			detailCellInfo = _record.Date
 		case Enums.CellInAddingRecord.Time.rawValue:
 			cellIdentifier = "RecordTime"
-			detailCellInfo = String(record.TimeIntervalIndex)
+            detailCellInfo = Constants.TIME_INTERVALS_DICTIONARY[_record.TimeIntervalIndex]!
 		case Enums.CellInAddingRecord.Mark.rawValue:
 			cellIdentifier = "CarMarkCell"
-			detailCellInfo = record.Mark
+			detailCellInfo = _record.Mark
 		case Enums.CellInAddingRecord.Model.rawValue:
 			cellIdentifier = "ModelCell"
-			detailCellInfo = record.Model
+			detailCellInfo = _record.Model
 		case Enums.CellInAddingRecord.RepairType.rawValue:
 			cellIdentifier = "RepairType"
 		default:
@@ -108,7 +141,7 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		}
 		if indexPath.row == Enums.CellInAddingRecord.RepairType.rawValue {
 			if let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,for: indexPath) as? RepairTypeCell{
-				cell.SetData(remontDescription: record.RepairType)
+				cell.SetData(remontDescription: _record.RepairType)
 				return cell
 			}
 		}
@@ -126,10 +159,15 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		switch indexPath.row {
 		case Enums.CellInAddingRecord.Date.rawValue:
 			doDatePicker(.Date)
-		case Enums.CellInAddingRecord.Time.rawValue,
-			 Enums.CellInAddingRecord.Mark.rawValue,
-			 Enums.CellInAddingRecord.Model.rawValue:
-			doDatePicker(.Value)
+        case Enums.CellInAddingRecord.Time.rawValue:
+            _selectedTypeOfPicker = PickerStyle.Time
+            doDatePicker(.Value)
+        case Enums.CellInAddingRecord.Mark.rawValue:
+            _selectedTypeOfPicker = PickerStyle.Mark
+            doDatePicker(.Value)
+        case Enums.CellInAddingRecord.Model.rawValue:
+            _selectedTypeOfPicker = PickerStyle.Model
+            doDatePicker(.Value)
 		case Enums.CellInAddingRecord.RepairType.rawValue:
 			performSegue(withIdentifier: "RepairTypeDetailIdentifier", sender: self)
 		default:
@@ -137,11 +175,6 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		}
 	}
 	
-	private func CreatePicker()->UIPickerView{
-		let picker:UIPickerView = UIPickerView()
-		picker.frame = CGRect(x:0, y: view.frame.height - 200, width: view.frame.width, height: 200)
-		return picker
-	}
 	
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		return 1
@@ -149,71 +182,88 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 	
 	// data method to return the number of row shown in the picker.
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		
-		switch pickerView.tag {
-		case Enums.CellInAddingRecord.Time.rawValue:
-			return Constants.TIME_INTERVALS_DICTIONARY.count
-		case Enums.CellInAddingRecord.Mark.rawValue:
-			return marks.count
-		case Enums.CellInAddingRecord.Model.rawValue:
-			return models.count
-		default:
-			return 0
-		}
+        if _selectedTypeOfPicker != nil{
+            switch _selectedTypeOfPicker! {
+            case PickerStyle.Time:
+                return Constants.TIME_INTERVALS_DICTIONARY.count
+            case PickerStyle.Mark:
+                return _marks.count
+            case PickerStyle.Model:
+                return _models.count
+            }
+        }
+		return 0
 	}
 	
-	private func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 		
-		switch pickerView.tag {
-		case Enums.CellInAddingRecord.Time.rawValue:
-			return Constants.TIME_INTERVALS_DICTIONARY[row]
-		case Enums.CellInAddingRecord.Mark.rawValue:
-			return marks[row]
-		case Enums.CellInAddingRecord.Model.rawValue:
-			return models[row]
-		default:
-			return "Something goes wrong"
-		}
+        if _selectedTypeOfPicker != nil{
+            switch _selectedTypeOfPicker! {
+            case PickerStyle.Time:
+                return Constants.TIME_INTERVALS_DICTIONARY[row]
+            case PickerStyle.Mark:
+                return _marks[row]
+            case PickerStyle.Model:
+                return _models[row]
+        }
+        }
+        return nil
 	}
 	
 	// delegate method called when the row was selected.
-	private func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		record.TimeIntervalIndex = row
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+		
+        if _selectedTypeOfPicker != nil{
+            switch _selectedTypeOfPicker! {
+            case PickerStyle.Time:
+                _record.TimeIntervalIndex = row
+            case PickerStyle.Mark:
+                _record.Mark = _marks[row]
+                _models = RequestManager.getAutoModels(brand:_record.Mark)
+            case PickerStyle.Model:
+                _record.Model = _models[row]
+                
+            }
+        }
+        
 		RecordTableView.reloadData()
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-	}
-	
-	
+    
+     // MARK: - Navigation
+     
+    
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? RepairTypeDetailViewController{
+            destination.SetRecord(_record)
+        }
+     }
 	
 	func doDatePicker(_ type:Enums.PickerType){
-		InitializeToolBar()
+		doneClick()
 		switch type {
 		case .Value:
-			InitializeValuePicker()
-			if(!DatePicker.isHidden) {DatePicker.isHidden = true}
-			view.addSubview(self.PickerView)
+            _pickerView.isHidden = false
+            _pickerView.delegate = self
+            _pickerView.dataSource = self
+            
 		case .Date:
-			InitializeDatePicker()
-			if(!PickerView.isHidden) {PickerView.isHidden = true}
-			view.addSubview(self.DatePicker)
+            _datePicker.isHidden = false
 		}
-		self.view.addSubview(toolBar)
-		self.toolBar.isHidden = false
+		self._toolBar.isHidden = false
 	}
 	
 	@objc func doneClick() {
-		RecordTableView.reloadData()
-		if(!self.DatePicker.isHidden) {self.DatePicker.isHidden = true}
-		if(!self.PickerView.isHidden) {self.PickerView.isHidden = true}
-		self.toolBar.isHidden = true
+        _pickerView.isHidden = true
+        _datePicker.isHidden = true
+		_toolBar.isHidden = true
+        RecordTableView.reloadData()
 	}
 	
 	@objc func cancelClick() {
-		if(!self.DatePicker.isHidden) {self.DatePicker.isHidden = true}
-		if(!self.PickerView.isHidden) {self.PickerView.isHidden = true}
-		self.toolBar.isHidden = true
+        _pickerView.isHidden = true
+        _datePicker.isHidden = true
+		_toolBar.isHidden = true
 		RecordTableView.reloadData()
 	}
 	

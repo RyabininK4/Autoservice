@@ -15,5 +15,6 @@ public class RecordData{
     public var Mark:String = String()
     public var Model:String = String()
     public var RepairType:String = Constants.RECORD_TYPE_DEFAULT_VALUE
+    public var CurrentUserId:Int = UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
     
 }
