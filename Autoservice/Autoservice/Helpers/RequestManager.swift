@@ -12,7 +12,7 @@ class RequestManager {
     
     //Server
     private static let _serverScheme = "http"
-    private static let _serverAddress:String = "192.168.1.35"
+    private static let _serverAddress:String = "172.20.10.2"
     private static let _serverPort:String = "8080"
     
     //Functions names
@@ -100,7 +100,7 @@ class RequestManager {
                 : .FailedToRegister)
         }
         
-        if let userID = requestResult["id"] as? String , let userIDValue = Int(userID) {
+        if let userID = requestResult["Id"] as? String , let userIDValue = Int(userID) {
             return RegisterResult(inputRegisterState:.Success , inputUserId: userIDValue)
         }
         else {
@@ -117,18 +117,17 @@ class RequestManager {
         
         let requestResult =  MakeRequest(_loginServ,items)
         
-        guard let requestMessage = requestResult["Id"] as? String else {
-            print(_gettingMsgFromJSONError)
-            return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
-        }
+//        guard let requestMessage = requestResult["Id"] as? String else {
+//            print(_gettingMsgFromJSONError)
+//            return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
+//        }
         if let requestError = requestResult["Error"] as? String {
             print(requestError)
+            if requestError.contains(_accoutExistingErrorPart) ||
+                requestError.contains(_wrongPasswordError){
+                return LoginResult(inputLoginState: Enums.LoginState.FailedWithInvalideLogin, inputUserId: Constants.INVALIDE_INT_VALUE)
+            }
             return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
-        }
-        if requestMessage.contains(_errorPartOfErrorMessage) ||
-            requestMessage.contains(_accoutExistingErrorPart) ||
-            requestMessage.contains(_wrongPasswordError){
-            return LoginResult(inputLoginState: Enums.LoginState.FailedWithInvalideLogin, inputUserId: Constants.INVALIDE_INT_VALUE)
         }
         else{
             if let userID = requestResult["Id"] as? String , let userIDValue = Int(userID) {

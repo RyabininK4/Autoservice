@@ -58,8 +58,9 @@ class SignUpViewController: BaseViewController {
         func anything(alert: UIAlertAction!) {
             if (AutoEnterSwitch.isOn){
                 UserDefaults.standard.set(userIDByRegistration, forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
-                if let homeVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController"){
-                    self.present(homeVC, animated: true)
+                let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
+                if let homePage = mainStoryBoard.instantiateInitialViewController(){
+                    self.present(homePage, animated:true)
                 }
             }
             else{
