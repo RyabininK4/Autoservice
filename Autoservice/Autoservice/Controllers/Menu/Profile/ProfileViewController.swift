@@ -11,15 +11,15 @@ import UIKit
 class ProfileViewController: BaseViewController {
     
     //Variables and attributes
-    private let _nameKey:String = "name"
-    private let _mailKey:String = "mail"
-    private let _phoneKey:String = "phone"
-    private let _dateKey:String = "date"
-    private let _timeKey:String = "time"
-    private let _autoKey:String = "auto"
-    private let _typeKey:String = "type"
-    private let _stateKey:String = "state"
-    private let _loginKey:String = "login"
+    private let _nameKey:String = "Name"
+    private let _mailKey:String = "Mail"
+    private let _phoneKey:String = "Phone"
+    private let _dateKey:String = "Date"
+    private let _timeKey:String = "Time"
+    private let _autoKey:String = "Auto"
+    private let _typeKey:String = "Type"
+    private let _stateKey:String = "State"
+    private let _loginKey:String = "Login"
     private let _errorKey:String = "Error"
     
     private var currentUserId:Int = Constants.INVALIDE_INT_VALUE
@@ -34,7 +34,7 @@ class ProfileViewController: BaseViewController {
     @IBAction func SaveChanges(_ sender: Any) {
         let updResult = RequestManager.updateUserData(userID: currentUserId, userLogin: Login.text, userFullName: FullName.text, userEmail: Email.text, userPhone: Phone.text)
         let alertTitle = (updResult) ? "Успешно" : "Ошибка"
-        let alertMessage = (updResult) ? "Данные обновлены" : "Неверные данные, возможно данный логин уже занят"
+        let alertMessage = (updResult) ? "Данные обновлены" : "Неверные данные,данный логин уже занят, возможно даже вами"
         let alertView = AlertManager.CreateDialog(inputTitle: alertTitle, inputMessage: alertMessage, actionsDict: [ "OK" : {_ in }])
         present(alertView, animated: true)
     }
@@ -44,7 +44,8 @@ class ProfileViewController: BaseViewController {
     
     @IBAction func ExitButton(_ sender: Any) {
         UserDefaults.standard.removeObject(forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
-        if let loginVC = storyboard?.instantiateInitialViewController(){
+        let autorizationStoryBoard =  UIStoryboard(name: "Authorization", bundle: nil)
+        if let loginVC = autorizationStoryBoard.instantiateInitialViewController(){
             present(loginVC, animated: true)
         }
     }

@@ -28,7 +28,8 @@ class SignInViewController: BaseViewController {
             
             if (requestResultByLogin.LoginState == Enums.LoginState.Success){
                 UserDefaults.standard.set(requestResultByLogin.userId, forKey: Constants.USER_ID_USER_DEFAULTS_KEY)
-                if let homePage = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController"){
+                let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
+                if let homePage = mainStoryBoard.instantiateInitialViewController(){
                     self.present(homePage, animated:true)
                 }
             }
