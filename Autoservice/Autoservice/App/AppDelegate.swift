@@ -17,21 +17,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        if UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY) == 0 {
-            let autorizationStoryBoard =  UIStoryboard(name: "Authorization", bundle: nil)
-            let signInVC = autorizationStoryBoard.instantiateViewController(withIdentifier: "SignInNavigationController")
-            self.window?.rootViewController = signInVC
-            self.window?.makeKeyAndVisible()
+        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            let alert = AlertManager.CreateDialog(inputTitle: "Ошибка входа", inputMessage: "Зайдите в систему", actionsDict: ["OK": {_ in }])
+            var startVC:UIViewController?
+            switch(shortcutItem.type){
+            case "com.autoservice.main.createrecord":
+                startVC = (IsLoggedUser() ? GetCreatePageViewController() : GetSignInViewController() )
+            case "com.autoservice.main.showrecords":
+                startVC = (IsLoggedUser() ? GetUserRecordsViewController() : GetSignInViewController() )
+            case "com.autoservice.main.gotoprofile":
+                startVC = (IsLoggedUser() ? GetProfileViewController() : GetSignInViewController() )
+            default:
+                break
+            }
+            if (startVC != nil){
+                SetInitialViewController(startVC!)
+                if (!IsLoggedUser()){
+                    startVC?.present(alert, animated: true)
+                }
+            }
         }
-        else
-        {
-            let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
-            let homeVC = mainStoryBoard.instantiateViewController(withIdentifier: "HomeViewController")
-            self.window!.rootViewController = homeVC
-            self.window?.makeKeyAndVisible()
+        else {
+            SetInitialViewController((IsLoggedUser() ? GetCreatePageViewController() : GetSignInViewController() ))
         }
 		return true
 	}
+   
+    private func GetCreatePageViewController()->UIViewController{
+        let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
+        return mainStoryBoard.instantiateViewController(withIdentifier: "HomeViewController")
+    }
+    
+    private func GetSignInViewController()->UIViewController{
+        let mainStoryBoard = UIStoryboard(name: "Authorization", bundle: nil)
+        return mainStoryBoard.instantiateViewController(withIdentifier: "SignInNavigationController")
+    }
+    
+    private func GetProfileViewController()->UIViewController{
+        let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
+        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "HomeViewController")
+        if let tabBar = vc as? UITabBarController{
+            tabBar.selectedIndex = 2
+            return tabBar
+        }
+        return mainStoryBoard.instantiateInitialViewController()!
+    }
+    
+    private func GetUserRecordsViewController()->UIViewController{
+        let mainStoryBoard = UIStoryboard(name: "Menu", bundle: nil)
+        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "HomeViewController")
+        if let tabBar = vc as? UITabBarController{
+            tabBar.selectedIndex = 1
+            return tabBar
+        }
+        return mainStoryBoard.instantiateInitialViewController()!
+    }
+    
+    
+    private func IsLoggedUser()->Bool{
+        return (UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY) != 0
+            && UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY) > 0)
+    }
+    
+    private func SetInitialViewController(_ vc:UIViewController){
+        self.window!.rootViewController = vc
+        self.window?.makeKeyAndVisible()
+    }
 
 }
 

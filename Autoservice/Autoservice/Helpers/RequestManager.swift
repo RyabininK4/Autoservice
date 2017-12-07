@@ -12,7 +12,7 @@ class RequestManager {
     
     //Server
     private static let _serverScheme = "http"
-    private static let _serverAddress:String = "172.20.10.2"
+    private static let _serverAddress:String = "192.168.1.70"
     private static let _serverPort:String = "8080"
     
     //Functions names
@@ -24,19 +24,24 @@ class RequestManager {
     private static let _getServ:String = "/getserv"
     private static let _getUserData:String = "/getUserData"
     private static let _updUserData:String = "/updUserData"
+    private static let _getAutoBrands:String = "/getAutoBrands"
+    private static let _getAutoModels:String = "/getAutoModels"
+    private static let _regServ:String = "/regServ"
     
     //Attributes names
     private static let _nameAttr:String = "name"
     private static let _mailAttr:String = "mail"
     private static let _phoneAttr:String = "phone"
-    private static let _dateAttr:String = "date="
-    private static let _timeAttr:String = "time="
-    private static let _autoAttr:String = "auto="
-    private static let _typeAttr:String = "type="
-    private static let _stateAttr:String = "state="
+    private static let _dateAttr:String = "date"
+    private static let _timeAttr:String = "time"
+    private static let _autoAttr:String = "auto"
+    private static let _typeAttr:String = "type"
+    private static let _stateAttr:String = "state"
     private static let _loginAttr:String = "login"
     private static let _passwordAttr:String = "password"
     private static let _idAttr:String = "id"
+    private static let _brandAttr:String = "brand"
+    private static let _userIdAttr:String = "userId"
     
     //Symbols Helpers
     private static let _beforeAttributesSymbol:String = "?"
@@ -117,10 +122,6 @@ class RequestManager {
         
         let requestResult =  MakeRequest(_loginServ,items)
         
-//        guard let requestMessage = requestResult["Id"] as? String else {
-//            print(_gettingMsgFromJSONError)
-//            return LoginResult(inputLoginState: Enums.LoginState.FailedWithError, inputUserId: Constants.INVALIDE_INT_VALUE)
-//        }
         if let requestError = requestResult["Error"] as? String {
             print(requestError)
             if requestError.contains(_accoutExistingErrorPart) ||
@@ -158,6 +159,42 @@ class RequestManager {
         
         let requestResult = MakeRequest(_updUserData,items)
         return (requestResult["Error"] as? String == nil)
+    }
+    
+    public static func getAutoBrands()->[String]{
+        var resultStringArray:[String] = []
+        let messages = MakeRequest(_getAutoBrands, [])["Message"]
+        if let test = messages as? String{
+            resultStringArray = test.components(separatedBy: ",")
+        }
+        return resultStringArray
+    }
+    
+    public static func getAutoModels(brand:String)->[String]{
+        var resultStringArray:[String] = []
+        let messages = MakeRequest(_getAutoModels,[URLQueryItem(name:_brandAttr, value: brand)])["Message"]
+        if let test = messages as? String{
+            resultStringArray = test.components(separatedBy: ",")
+        }
+        return resultStringArray
+    }
+    
+    
+    
+    public static func createRecordOnServ(_ record:RecordData)->Bool{
+        var query:[URLQueryItem] = []
+        query.append(URLQueryItem(name: _userIdAttr, value: String(record.CurrentUserId)))
+        query.append(URLQueryItem(name: _dateAttr, value: String(record.Date)))
+        let stringValueFromRecord = Constants.TIME_INTERVALS_DICTIONARY[record.TimeIntervalIndex]
+        
+        let startTime:String = stringValueFromRecord![0...4]
+        query.append(URLQueryItem(name: _timeAttr, value: startTime))
+        query.append(URLQueryItem(name: _autoAttr, value: record.Mark + " " + record.Model))
+        query.append(URLQueryItem(name: _typeAttr, value: record.RepairType))
+        
+        let messages = MakeRequest(_regServ,query)["Message"]
+        
+        return ((messages as? String) != nil)
     }
     
     //Private
@@ -231,6 +268,15 @@ class RequestManager {
         task.resume()
         
     }
-
 }
+
+extension String {
+    subscript (bounds: CountableClosedRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(startIndex, offsetBy: bounds.upperBound)
+        return String(self[start...end])
+    }
+}
+
+
 
