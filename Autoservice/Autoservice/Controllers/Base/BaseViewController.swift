@@ -2,13 +2,15 @@
 //  BaseViewController.swift
 //  Autoservice
 //
-//  Created by Kirill Ryabinin on 07.11.2017.
-//  Copyright © 2017 Kirill Ryabinin. All rights reserved.
+//  Created by Autoservice on 30/11/2017.
+//  Copyright © 2017 Autoservice. All rights reserved.
 //
 
 import UIKit
 
 class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
+	
+	//MARK: - Properties
 	
 	var isFirstAppear = true
 	
@@ -60,6 +62,18 @@ class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
 		if subview?.tag != 100 {
 			view?.endEditing(true)
 		}
+	}
+	
+	func addBackButton() {
+		let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+		button.setTitle("Назад", for: .normal)
+		button.tintColor = UIColor.white
+		button.addTarget(self, action: #selector(back(_:)), for: .touchUpInside)
+		self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+	}
+	
+	@objc func back(_ sender: Any) {
+		_ = navigationController?.popViewController(animated: true)
 	}
 	
 	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {

@@ -2,8 +2,8 @@
 //  AutoserviceUITests.swift
 //  AutoserviceUITests
 //
-//  Created by Kirill Ryabinin on 07.11.2017.
-//  Copyright © 2017 Kirill Ryabinin. All rights reserved.
+//  Created by Autoservice on 30/11/2017.
+//  Copyright © 2017 Autoservice. All rights reserved.
 //
 
 import XCTest

@@ -19,6 +19,7 @@
 		3C979D311FD74257001197F2 /* UserRecordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C979D301FD74257001197F2 /* UserRecordsTableViewCell.swift */; };
 		3CB35C8F1FB8D56500E68BFB /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3CB35C8D1FB8D56500E68BFB /* Menu.storyboard */; };
 		3CB35C911FB8DA7900E68BFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CB35C901FB8DA7800E68BFB /* Assets.xcassets */; };
+		3CD097471FE31CF50098DD33 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD097461FE31CF50098DD33 /* BaseTableViewController.swift */; };
 		F346EDC11FCD851D00975B71 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346EDC01FCD851D00975B71 /* RequestManager.swift */; };
 		F346EDC31FCD997300975B71 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346EDC21FCD997300975B71 /* AlertManager.swift */; };
 		F35B40741FD00D9B00132770 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40731FD00D9B00132770 /* UserData.swift */; };
@@ -71,6 +72,7 @@
 		3C979D301FD74257001197F2 /* UserRecordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserRecordsTableViewCell.swift; path = Controllers/UserRecords/UserRecordsTableViewCell.swift; sourceTree = "<group>"; };
 		3CB35C8E1FB8D56500E68BFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Menu.storyboard; sourceTree = "<group>"; };
 		3CB35C901FB8DA7800E68BFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3CD097461FE31CF50098DD33 /* BaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		F346EDC01FCD851D00975B71 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		F346EDC21FCD997300975B71 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		F35B40731FD00D9B00132770 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			children = (
 				3C1A55521FB23A00009E8AB3 /* BaseViewController.swift */,
 				F3FC6DF71FCDB0DC0084426D /* BaseNavigationController.swift */,
+				3CD097461FE31CF50098DD33 /* BaseTableViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				F3FC6DF81FCDB0DC0084426D /* BaseNavigationController.swift in Sources */,
 				F36B12041FE1B72E00013475 /* ManagerDetailRecordTableViewController.swift in Sources */,
 				F346EDC11FCD851D00975B71 /* RequestManager.swift in Sources */,
+				3CD097471FE31CF50098DD33 /* BaseTableViewController.swift in Sources */,
 				F35B40781FD0100300132770 /* Enums.swift in Sources */,
 				F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */,
 				3C1A55501FB2376A009E8AB3 /* SignUpViewController.swift in Sources */,
