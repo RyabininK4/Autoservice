@@ -12,21 +12,22 @@ class RequestManager {
     
     //Server
     private static let _serverScheme = "http"
-    private static let _serverAddress:String = "192.168.1.70"
+    private static let _serverAddress:String = "192.168.1.66"
     private static let _serverPort:String = "8080"
     
     //Functions names
     private static let _registerFunc:String = "/register"
     private static let _loginServ:String = "/login"
-    private static let _registerServ:String = "/regserv"
-    private static let _verifyServ:String = "/verifyserv"
-    private static let _delServ:String = "/delserv"
-    private static let _getServ:String = "/getserv"
+    private static let _verifyServ:String = "/verServ"
+    private static let _delServ:String = "/delServ"
+    private static let _getServ:String = "/getServ"
     private static let _getUserData:String = "/getUserData"
     private static let _updUserData:String = "/updUserData"
     private static let _getAutoBrands:String = "/getAutoBrands"
     private static let _getAutoModels:String = "/getAutoModels"
     private static let _regServ:String = "/regServ"
+    private static let _updServ:String = "/updServ"
+    private static let _getAvailableIntervals:String = "/getAvailableIntervals"
     
     //Attributes names
     private static let _nameAttr:String = "name"
@@ -42,6 +43,20 @@ class RequestManager {
     private static let _idAttr:String = "id"
     private static let _brandAttr:String = "brand"
     private static let _userIdAttr:String = "userId"
+    private static let _repairStateAttr:String = "repairState"
+    private static let _repairDurationAttr:String = "repairDuration"
+    private static let _durationAttr:String = "duration"
+    
+    private static let _idKey:String = "Id"
+    private static let _userIdKey:String = "UserId"
+    private static let _dateKey:String = "Date"
+    private static let _timeKey:String = "Time"
+    private static let _durationKey:String = "Duration"
+    private static let _autoKey:String = "Auto"
+    private static let _typeKey:String = "Type"
+    private static let _stateKey:String = "State"
+    private static let _repairDurationKey:String = "RepairDuration"
+    private static let _repairStateKey:String = "RepairState"
     
     //Symbols Helpers
     private static let _beforeAttributesSymbol:String = "?"
@@ -161,6 +176,19 @@ class RequestManager {
         return (requestResult["Error"] as? String == nil)
     }
     
+    public static func getAvailibleIntervals(_ date:String)->[Int]{
+        var result:[Int] = []
+        
+        if let messages = MakeRequest(_getAvailableIntervals,[URLQueryItem(name:_dateAttr, value:date)])["Intervals"] as? String{
+            for value in messages.components(separatedBy: ",") {
+                if (Int(value) != nil){
+                    result.append(Int(value)!)
+                }
+            }
+        }
+        return result
+    }
+    
     public static func getAutoBrands()->[String]{
         var resultStringArray:[String] = []
         let messages = MakeRequest(_getAutoBrands, [])["Message"]
@@ -183,7 +211,7 @@ class RequestManager {
     
     public static func createRecordOnServ(_ record:RecordData)->Bool{
         var query:[URLQueryItem] = []
-        query.append(URLQueryItem(name: _userIdAttr, value: String(record.CurrentUserId)))
+        query.append(URLQueryItem(name: _userIdAttr, value: String(record.UserId)))
         query.append(URLQueryItem(name: _dateAttr, value: String(record.Date)))
         let stringValueFromRecord = Constants.TIME_INTERVALS_DICTIONARY[record.TimeIntervalIndex]
         
@@ -197,8 +225,105 @@ class RequestManager {
         return ((messages as? String) != nil)
     }
     
-    //Private
+    public static func getRecordsFromServer(userId:Int = Constants.INVALIDE_INT_VALUE)->[RecordData]{
+        var result:[RecordData] = []
+        var query:[URLQueryItem] = []
+        if (userId != Constants.INVALIDE_INT_VALUE){
+            query.append(URLQueryItem(name: _userIdAttr, value: String(userId)))
+        }
+        let messages = MakeRequest(_getServ,query)
+        if messages.count > 0{
+            
+        
+        for iter in 1...messages.count
+        {
+            if let message = messages[String(iter)] as? [String:Any]{
+                let record = RecordData()
+                if let AutoValue = message["Auto"] as? String{
+                    record.Mark = AutoValue
+                }
+                if let DateValue = message["Date"] as? String{
+                    record.Date = DateValue
+                }
+                if let DurationValue = message["Duration"] as? Int{
+                    record.Duration = DurationValue
+                }
+                print(message["Id"])
+                if let IdValue = message["Id"] as? String{
+                    if Int(IdValue) != nil{
+                        record.Id = Int(IdValue)!
+                    }
+                }
+                if let RepairDurationValue = message["RepairDuration"] as? String{
+                    record.RepairDuration = RepairDurationValue
+                }else {
+                    record.RepairDuration = "Не подтверждён"
+                }
+                
+                if let RepairStateValue = message["RepairState"] as? String{
+                    record.RepairState = RepairStateValue
+                } else {
+                    record.RepairState = "Не подтверждён"
+                }
+                if let StateValue = message["State"] as? String{
+                    record.State = StateValue
+                }
+                if let TimeValue = message["Time"] as? String{
+                    if let startTimeIndex = Constants.REVERT_TIME_INTERVALS_DICTIONARY[TimeValue]{
+                        record.TimeIntervalIndex = startTimeIndex
+                    }
+                }
+                if let TypeValue = message["Type"] as? String{
+                    record.RepairType = TypeValue
+                }
+                if let UserIdValue = message["UserId"] as? String{
+                    if (Int(UserIdValue) != nil){
+                        record.UserId = Int(UserIdValue)!
+                    }
+                }
+                result.append(record)
+            }
+            }
+            
+        }
+        
+        return result
+    }
     
+    public static func updateRecord(_ record:RecordData)->Bool{
+        var updateQuery:[URLQueryItem] = []
+        var verifyQuery:[URLQueryItem] = []
+        
+        let stringValueFromRecord = Constants.TIME_INTERVALS_DICTIONARY[record.TimeIntervalIndex]
+        let startTime:String = stringValueFromRecord![0...4]
+        
+        updateQuery.append(URLQueryItem(name: _typeAttr, value: String(record.RepairType)))
+        updateQuery.append(URLQueryItem(name: _stateAttr, value: String(record.State)))
+        updateQuery.append(URLQueryItem(name: _idAttr, value: String(record.Id)))
+        updateQuery.append(URLQueryItem(name: _repairStateAttr, value: String(record.RepairState)))
+        updateQuery.append(URLQueryItem(name: _repairDurationAttr, value: String(record.RepairDuration)))
+        
+        verifyQuery.append(URLQueryItem(name: _timeAttr, value: startTime))
+        verifyQuery.append(URLQueryItem(name: _dateAttr, value: record.Date))
+        verifyQuery.append(URLQueryItem(name: _durationAttr, value: "00:30"))
+//        TODO REWoRK
+//        verifyQuery.append(URLQueryItem(name: _durationAttr, value: String(record.Duration)))
+        verifyQuery.append(URLQueryItem(name: _idAttr, value: String(record.Id)))
+        
+        let messagesByUpdate = MakeRequest(_updServ,updateQuery)["Message"]
+        let messagesByVerify = MakeRequest(_verifyServ, verifyQuery)["Message"]
+        //TODO:REWORK
+        return ((messagesByUpdate as? String) != nil) && ((messagesByVerify as? String) != nil)
+    }
+    
+    public static func delRecord(_ recordId:Int)->Bool{
+        var updateQuery:[URLQueryItem] = []
+        updateQuery.append(URLQueryItem(name: _idAttr, value: String(recordId)))
+        let messagesByDeleteOperation = MakeRequest(_delServ, updateQuery)["Message"]
+        return ((messagesByDeleteOperation as? String) != nil)
+    }
+    
+    //Private
     private static func MakeRequest(_ path:String,_ queryItems:[URLQueryItem])->[String: Any]{
         let semaphore = DispatchSemaphore(value: 0)
         var messageResult:[String:Any] = ["Error":"Failed To Create request"]

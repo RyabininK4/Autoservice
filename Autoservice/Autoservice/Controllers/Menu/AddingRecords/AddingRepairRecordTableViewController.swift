@@ -30,29 +30,23 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 	
 	private let _dateFormatter = DateFormatter()
 	private let _locale = NSLocale.current
-	private let _toolBar = UIToolbar()
+    private var _toolBar = UIToolbar()
     private var _pickerView = UIPickerView()
     private var _datePicker = UIDatePicker()
-	private var _intervalPicker:UIPickerView = UIPickerView()
-	private let _record:RecordData = RecordData()
+    private var _availibleIntervals:[Int] = []
+    private let _record:RecordData = RecordData(TimeIntervalIndex:0,RepairType:Constants.RECORD_TYPE_DEFAULT_VALUE)
 	//TODO Check connection
 	private let _marks:[String] = RequestManager.getAutoBrands()
 	private var _models:[String] = []
 	
 	private let NAV_BAR_ITEM_HEIGHT:CGFloat = 44
     
-    private enum PickerStyle:Int{
-        case Time = 1
-        case Mark = 2
-        case Model = 3
-    }
     
-    private var _selectedTypeOfPicker:PickerStyle?
+    private var _selectedTypeOfPicker:Enums.AddingRecordPagePickerStyle?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
         InitializeToolBar()
-		InitIntervalPicker()
         InitializeDatePicker()
         InitializeValuePicker()
 	}
@@ -62,44 +56,21 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
     }
 	
 	private func InitializeDatePicker(){
-		_datePicker = UIDatePicker(frame:CGRect(x: 0, y:  view.frame.height - 200 - NAV_BAR_ITEM_HEIGHT, width: self.view.frame.size.width, height: 200))
-		_datePicker.backgroundColor = UIColor.white
-		_datePicker.datePickerMode = .date
+        _datePicker = InputViewManager.InitializeDatePicker(view: self.view)
 		_datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        _datePicker.isHidden = true
-        self.view.addSubview(_datePicker)
 	}
 	
 	private func InitializeValuePicker(){
-		_pickerView.backgroundColor = UIColor.white
-        _pickerView = UIPickerView(frame:CGRect(x: 0, y: view.frame.height - 200 - NAV_BAR_ITEM_HEIGHT, width: self.view.frame.width, height: 200))
-        _pickerView.isHidden = true
-        self.view.addSubview(_pickerView)
+        _pickerView = InputViewManager.InitializeValuePicker(view: self.view)
 	}
 	
 	private func InitializeToolBar(){
-		
-		_toolBar.barStyle = .default
-		_toolBar.isTranslucent = true
-		_toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
-		_toolBar.sizeToFit()
-		
-		// Adding Button ToolBar
 		let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(AddingRepairRecordTableViewController.doneClick))
 		let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 		let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(AddingRepairRecordTableViewController.cancelClick))
-		_toolBar.setItems([cancelButton, spaceButton, doneButton], animated: true)
-		_toolBar.isUserInteractionEnabled = true
-		_toolBar.frame = CGRect(x:0,y:view.frame.height - 200 - _toolBar.frame.height - NAV_BAR_ITEM_HEIGHT,
-							   width:view.frame.width,height:_toolBar.frame.height)
-        _toolBar.isHidden = true
-        self.view.addSubview(_toolBar)
+        _toolBar = InputViewManager.InitializeToolBar(view:self.view,toolBarButtons:[cancelButton, spaceButton, doneButton])
 	}
 	
-	private func InitIntervalPicker(){
-		_intervalPicker.delegate = self
-		_intervalPicker.dataSource = self
-	}
 	
 	@objc func datePickerValueChanged(_ sender: UIDatePicker){
 		let dateFormatter: DateFormatter = DateFormatter()
@@ -160,13 +131,14 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		case Enums.CellInAddingRecord.Date.rawValue:
 			doDatePicker(.Date)
         case Enums.CellInAddingRecord.Time.rawValue:
-            _selectedTypeOfPicker = PickerStyle.Time
+            _selectedTypeOfPicker = Enums.AddingRecordPagePickerStyle.Time
+            _availibleIntervals = RequestManager.getAvailibleIntervals(_record.Date)
             doDatePicker(.Value)
         case Enums.CellInAddingRecord.Mark.rawValue:
-            _selectedTypeOfPicker = PickerStyle.Mark
+            _selectedTypeOfPicker = Enums.AddingRecordPagePickerStyle.Mark
             doDatePicker(.Value)
         case Enums.CellInAddingRecord.Model.rawValue:
-            _selectedTypeOfPicker = PickerStyle.Model
+            _selectedTypeOfPicker = Enums.AddingRecordPagePickerStyle.Model
             doDatePicker(.Value)
 		case Enums.CellInAddingRecord.RepairType.rawValue:
 			performSegue(withIdentifier: "RepairTypeDetailIdentifier", sender: self)
@@ -184,11 +156,12 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if _selectedTypeOfPicker != nil{
             switch _selectedTypeOfPicker! {
-            case PickerStyle.Time:
-                return Constants.TIME_INTERVALS_DICTIONARY.count
-            case PickerStyle.Mark:
+            case Enums.AddingRecordPagePickerStyle.Time:
+                
+                return _availibleIntervals.count
+            case Enums.AddingRecordPagePickerStyle.Mark:
                 return _marks.count
-            case PickerStyle.Model:
+            case Enums.AddingRecordPagePickerStyle.Model:
                 return _models.count
             }
         }
@@ -199,11 +172,11 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		
         if _selectedTypeOfPicker != nil{
             switch _selectedTypeOfPicker! {
-            case PickerStyle.Time:
-                return Constants.TIME_INTERVALS_DICTIONARY[row]
-            case PickerStyle.Mark:
+            case Enums.AddingRecordPagePickerStyle.Time:
+                return Constants.TIME_INTERVALS_DICTIONARY[_availibleIntervals[row]]
+            case Enums.AddingRecordPagePickerStyle.Mark:
                 return _marks[row]
-            case PickerStyle.Model:
+            case Enums.AddingRecordPagePickerStyle.Model:
                 return _models[row]
         }
         }
@@ -215,20 +188,30 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
 		
         if _selectedTypeOfPicker != nil{
             switch _selectedTypeOfPicker! {
-            case PickerStyle.Time:
-                _record.TimeIntervalIndex = row
-            case PickerStyle.Mark:
+            case Enums.AddingRecordPagePickerStyle.Time:
+                _record.TimeIntervalIndex = _availibleIntervals[row]
+            case Enums.AddingRecordPagePickerStyle.Mark:
                 _record.Mark = _marks[row]
                 _models = RequestManager.getAutoModels(brand:_record.Mark)
-            case PickerStyle.Model:
+            case Enums.AddingRecordPagePickerStyle.Model:
                 _record.Model = _models[row]
                 
             }
         }
-        
 		RecordTableView.reloadData()
 	}
 	
+    /*TODO
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
     
      // MARK: - Navigation
      
@@ -239,7 +222,7 @@ class AddingRepairRecordTableViewController: UITableViewController,UIPickerViewD
         }
      }
 	
-	func doDatePicker(_ type:Enums.PickerType){
+	private func doDatePicker(_ type:Enums.PickerType){
 		doneClick()
 		switch type {
 		case .Value:
