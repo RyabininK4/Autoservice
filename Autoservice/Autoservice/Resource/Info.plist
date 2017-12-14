@@ -2,6 +2,41 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.autoservice.main.gotoprofile</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Профиль</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Перейти к профилю</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>user</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.autoservice.main.showrecords</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Записи</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Просмотреть список</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>list</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.autoservice.main.createrecord</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Добавить запись</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Создайте новую запись в автосервис</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>add</string>
+		</dict>
+	</array>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -31,8 +66,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
