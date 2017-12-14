@@ -12,13 +12,7 @@ class RepairTypeCell: UITableViewCell {
 
     @IBOutlet weak var RemontTypeLabel: UILabel!
     @IBOutlet weak var RemontTypeDescription: UILabel!
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
+   
     public func SetData(remontDescription:String){
         RemontTypeDescription.text = remontDescription
     }

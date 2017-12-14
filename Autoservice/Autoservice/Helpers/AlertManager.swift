@@ -11,7 +11,6 @@ import UIKit
 
 public class AlertManager{
 
-    
     private static let indicatorSize:CGFloat = 100
     public static func CreateDialog(inputTitle:String,inputMessage:String,actionsDict:Dictionary<String, (UIAlertAction) -> Void>)-> UIAlertController
     {

@@ -24,6 +24,8 @@
 		F35B40741FD00D9B00132770 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40731FD00D9B00132770 /* UserData.swift */; };
 		F35B40761FD00FB900132770 /* RecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40751FD00FB900132770 /* RecordData.swift */; };
 		F35B40781FD0100300132770 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B40771FD0100300132770 /* Enums.swift */; };
+		F36B12041FE1B72E00013475 /* ManagerDetailRecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B12031FE1B72E00013475 /* ManagerDetailRecordTableViewController.swift */; };
+		F36B12061FE1BA1E00013475 /* InputViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B12051FE1BA1E00013475 /* InputViewManager.swift */; };
 		F36F930F1FD17E6C0040C370 /* RepairTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F930E1FD17E6C0040C370 /* RepairTypeCell.swift */; };
 		F36F93131FD183210040C370 /* AddingRepairRecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F93121FD183210040C370 /* AddingRepairRecordTableViewController.swift */; };
 		F36F93191FD1ABDC0040C370 /* RepairTypeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36F93181FD1ABDC0040C370 /* RepairTypeDetailViewController.swift */; };
@@ -74,6 +76,8 @@
 		F35B40731FD00D9B00132770 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		F35B40751FD00FB900132770 /* RecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordData.swift; sourceTree = "<group>"; };
 		F35B40771FD0100300132770 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		F36B12031FE1B72E00013475 /* ManagerDetailRecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDetailRecordTableViewController.swift; sourceTree = "<group>"; };
+		F36B12051FE1BA1E00013475 /* InputViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewManager.swift; sourceTree = "<group>"; };
 		F36F930E1FD17E6C0040C370 /* RepairTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RepairTypeCell.swift; path = Autoservice/Models/RepairTypeCell.swift; sourceTree = SOURCE_ROOT; };
 		F36F93121FD183210040C370 /* AddingRepairRecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingRepairRecordTableViewController.swift; sourceTree = "<group>"; };
 		F36F93181FD1ABDC0040C370 /* RepairTypeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepairTypeDetailViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 		3C979D2D1FD7418D001197F2 /* UserRecords */ = {
 			isa = PBXGroup;
 			children = (
+				F36B12021FE1B6FA00013475 /* Managers Part */,
 				3C979D2E1FD741B5001197F2 /* UserRecordsViewController.swift */,
 			);
 			path = UserRecords;
@@ -240,6 +245,7 @@
 			children = (
 				F346EDC01FCD851D00975B71 /* RequestManager.swift */,
 				F346EDC21FCD997300975B71 /* AlertManager.swift */,
+				F36B12051FE1BA1E00013475 /* InputViewManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -251,6 +257,14 @@
 				F35B40751FD00FB900132770 /* RecordData.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F36B12021FE1B6FA00013475 /* Managers Part */ = {
+			isa = PBXGroup;
+			children = (
+				F36B12031FE1B72E00013475 /* ManagerDetailRecordTableViewController.swift */,
+			);
+			path = "Managers Part";
 			sourceTree = "<group>";
 		};
 		F375517B1FCF27D300A30E0A /* Profile */ = {
@@ -424,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3FC6DF81FCDB0DC0084426D /* BaseNavigationController.swift in Sources */,
+				F36B12041FE1B72E00013475 /* ManagerDetailRecordTableViewController.swift in Sources */,
 				F346EDC11FCD851D00975B71 /* RequestManager.swift in Sources */,
 				F35B40781FD0100300132770 /* Enums.swift in Sources */,
 				F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */,
@@ -441,6 +456,7 @@
 				F36F93131FD183210040C370 /* AddingRepairRecordTableViewController.swift in Sources */,
 				F375517A1FCEDDC800A30E0A /* Constants.swift in Sources */,
 				3C979D311FD74257001197F2 /* UserRecordsTableViewCell.swift in Sources */,
+				F36B12061FE1BA1E00013475 /* InputViewManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
