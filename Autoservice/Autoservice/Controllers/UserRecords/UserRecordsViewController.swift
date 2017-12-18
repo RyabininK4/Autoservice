@@ -51,8 +51,11 @@ class UserRecordsViewController: UIViewController, UITableViewDelegate, UITableV
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		_selectedRecord = _records[indexPath.row]
-		performSegue(withIdentifier: "ToEditByManagerViewControllerSegueIdentifier", sender: self)
+        if (_isUserManager){
+            _selectedRecord = _records[indexPath.row]
+            performSegue(withIdentifier: "ToEditByManagerViewControllerSegueIdentifier", sender: self)
+        }
+        
 	}
 	
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

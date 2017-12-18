@@ -215,8 +215,8 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 		if (isUpdateSuccess){
 			alertActions["OK"] = {_ in self.navigationController?.popViewController(animated: true)}
 		} else {
-			alertActions["ПОВТОРИТЬ"] = {_ in self.updateRecord()}
-			alertActions["К СПИСКУ"] = {_ in self.navigationController?.popViewController(animated: true)}
+            alertActions["НАЗАД"] = {_ in }
+            alertActions["ПОВТОРИТЬ"] = {_ in self.updateRecord()}
 		}
 		present(AlertManager.CreateDialog(inputTitle: title, inputMessage: message, actionsDict:alertActions),animated: true)
 	}
