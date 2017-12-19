@@ -28,6 +28,10 @@ class ServiceCreation: XCTestCase {
         super.tearDown()
     }
     
+    func test_Can_Create_Service(){
+
+    }
+    
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.

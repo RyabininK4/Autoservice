@@ -32,7 +32,9 @@ class DataUpdate: XCTestCase {
         
         let app = XCUIApplication()
         let element = app.otherElements.containing(.navigationBar, identifier:"Вход").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
-        element.children(matching: .textField).element.typeText("Test")
+        let textField1 = element.children(matching: .textField).element
+        textField1.tap()
+        textField1.typeText("Test")
         
         let secureTextField = element.children(matching: .secureTextField).element
         secureTextField.tap()
@@ -47,7 +49,8 @@ class DataUpdate: XCTestCase {
         textField.typeText("new_mail@mail.ru")
         app.buttons["Сохраить изменения"].tap()
         XCTAssert(app.staticTexts["Успешно"].exists)
-        
+        app.alerts["Успешно"].buttons["OK"].tap()
+        app.buttons["Выход"].tap()
     }
     
     func test_Cant_Change_Mail_To_Null(){
@@ -82,7 +85,9 @@ class DataUpdate: XCTestCase {
         button.tap()
         textField2.tap()
         
-        XCTAssertEqual(textField2.value as! String, "testmail")
+        XCTAssertEqual(textField2.value as! String, "sem_kulish")
+        app.buttons["Выход"].tap()
+        
     }
     
     func test_Change_Phone(){
@@ -106,6 +111,9 @@ class DataUpdate: XCTestCase {
         app.buttons["Сохраить изменения"].tap()
         
         XCTAssert(app.staticTexts["Успешно"].exists)
+        app.alerts["Успешно"].buttons["OK"].tap()
+        app.buttons["Выход"].tap()
+        
     }
     
     func test_Change_Name(){
@@ -128,7 +136,8 @@ class DataUpdate: XCTestCase {
         textField2.typeText("new_fio")
         app.buttons["Сохраить изменения"].tap()
         XCTAssert(app.staticTexts["Успешно"].exists)
-        
+        app.alerts["Успешно"].buttons["OK"].tap()
+        app.buttons["Выход"].tap()
     }
     
     func testExample() {

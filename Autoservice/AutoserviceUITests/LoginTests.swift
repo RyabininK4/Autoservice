@@ -75,7 +75,10 @@ class LoginTests: XCTestCase {
         secureTextField.tap()
         secureTextField.typeText("123456")
         app.buttons["Войти"].tap()
-        XCTAssert(app.staticTexts["Создание"].exists)
+        XCTAssert(app.navigationBars["Создание"].exists)
+        let button = app.tabBars.buttons["Профиль"]
+        button.tap()
+        app.buttons["Выход"].tap()
         
     }
     
