@@ -11,7 +11,6 @@
 		3C1A551E1FB232CB009E8AB3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A551D1FB232CB009E8AB3 /* SignInViewController.swift */; };
 		3C1A55261FB232CB009E8AB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C1A55241FB232CB009E8AB3 /* LaunchScreen.storyboard */; };
 		3C1A55311FB232CB009E8AB3 /* AutoserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A55301FB232CB009E8AB3 /* AutoserviceTests.swift */; };
-		3C1A553C1FB232CC009E8AB3 /* AutoserviceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A553B1FB232CC009E8AB3 /* AutoserviceUITests.swift */; };
 		3C1A55501FB2376A009E8AB3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A554F1FB2376A009E8AB3 /* SignUpViewController.swift */; };
 		3C1A55531FB23A00009E8AB3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A55521FB23A00009E8AB3 /* BaseViewController.swift */; };
 		3C979D2C1FD73AE2001197F2 /* Authorization.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C979D2A1FD73AE2001197F2 /* Authorization.storyboard */; };
@@ -33,6 +32,10 @@
 		F37551781FCDC13100A30E0A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37551771FCDC13100A30E0A /* HomeViewController.swift */; };
 		F375517A1FCEDDC800A30E0A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37551791FCEDDC800A30E0A /* Constants.swift */; };
 		F375517D1FCF289400A30E0A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F375517C1FCF289300A30E0A /* ProfileViewController.swift */; };
+		F3EF98CC1FE9967F00100AE6 /* ServiceCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF98C81FE9967E00100AE6 /* ServiceCreation.swift */; };
+		F3EF98CD1FE9967F00100AE6 /* DataUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF98C91FE9967E00100AE6 /* DataUpdate.swift */; };
+		F3EF98CE1FE9967F00100AE6 /* RegestrionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF98CA1FE9967E00100AE6 /* RegestrionTests.swift */; };
+		F3EF98CF1FE9967F00100AE6 /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF98CB1FE9967F00100AE6 /* LoginTests.swift */; };
 		F3FC6DF81FCDB0DC0084426D /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FC6DF71FCDB0DC0084426D /* BaseNavigationController.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,7 +66,6 @@
 		3C1A55301FB232CB009E8AB3 /* AutoserviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoserviceTests.swift; sourceTree = "<group>"; };
 		3C1A55321FB232CC009E8AB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C1A55371FB232CC009E8AB3 /* AutoserviceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoserviceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C1A553B1FB232CC009E8AB3 /* AutoserviceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoserviceUITests.swift; sourceTree = "<group>"; };
 		3C1A553D1FB232CC009E8AB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C1A554F1FB2376A009E8AB3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3C1A55521FB23A00009E8AB3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,11 @@
 		F37551771FCDC13100A30E0A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F37551791FCEDDC800A30E0A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F375517C1FCF289300A30E0A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F3EF98C71FE9967D00100AE6 /* AutoserviceUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoserviceUITests-Bridging-Header.h"; sourceTree = "<group>"; };
+		F3EF98C81FE9967E00100AE6 /* ServiceCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCreation.swift; sourceTree = "<group>"; };
+		F3EF98C91FE9967E00100AE6 /* DataUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataUpdate.swift; sourceTree = "<group>"; };
+		F3EF98CA1FE9967E00100AE6 /* RegestrionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegestrionTests.swift; sourceTree = "<group>"; };
+		F3EF98CB1FE9967F00100AE6 /* LoginTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
 		F3FC6DF71FCDB0DC0084426D /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,8 +167,12 @@
 		3C1A553A1FB232CC009E8AB3 /* AutoserviceUITests */ = {
 			isa = PBXGroup;
 			children = (
-				3C1A553B1FB232CC009E8AB3 /* AutoserviceUITests.swift */,
+				F3EF98C91FE9967E00100AE6 /* DataUpdate.swift */,
+				F3EF98CB1FE9967F00100AE6 /* LoginTests.swift */,
+				F3EF98CA1FE9967E00100AE6 /* RegestrionTests.swift */,
+				F3EF98C81FE9967E00100AE6 /* ServiceCreation.swift */,
 				3C1A553D1FB232CC009E8AB3 /* Info.plist */,
+				F3EF98C71FE9967D00100AE6 /* AutoserviceUITests-Bridging-Header.h */,
 			);
 			path = AutoserviceUITests;
 			sourceTree = "<group>";
@@ -382,6 +393,7 @@
 					};
 					3C1A55361FB232CC009E8AB3 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3C1A55171FB232CB009E8AB3;
 					};
@@ -476,7 +488,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C1A553C1FB232CC009E8AB3 /* AutoserviceUITests.swift in Sources */,
+				F3EF98CD1FE9967F00100AE6 /* DataUpdate.swift in Sources */,
+				F3EF98CE1FE9967F00100AE6 /* RegestrionTests.swift in Sources */,
+				F3EF98CC1FE9967F00100AE6 /* ServiceCreation.swift in Sources */,
+				F3EF98CF1FE9967F00100AE6 /* LoginTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,12 +715,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LL8UYH94A9;
 				INFOPLIST_FILE = AutoserviceUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryabinin.AutoserviceUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AutoserviceUITests/AutoserviceUITests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Autoservice;
@@ -716,12 +734,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LL8UYH94A9;
 				INFOPLIST_FILE = AutoserviceUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryabinin.AutoserviceUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AutoserviceUITests/AutoserviceUITests-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Autoservice;
