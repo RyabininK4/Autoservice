@@ -12,7 +12,7 @@ class RequestManager {
 	
 	//Server
 	private static let _serverScheme = "http"
-	private static let _serverAddress:String = "172.20.10.11"
+	private static let _serverAddress:String = "192.168.1.66"
 	private static let _serverPort:String = "8080"
 	
 	//Functions names
