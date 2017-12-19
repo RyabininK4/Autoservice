@@ -18,7 +18,7 @@ public class UserData{
 	public var _phone : String
 	public var _role : Enums.UserRole
 	
-	public init( login : String, fullName : String, email : String, phone : String, userId : Int, userRole : Enums.UserRole = .User) {
+	public init(login : String, fullName : String, email : String, phone : String, userId : Int, userRole : Enums.UserRole = .User) {
 		_login = login
 		_fullName = fullName
 		_email = email
@@ -27,7 +27,7 @@ public class UserData{
 		_role = userRole
 	}
 	
-	public init(){
+	public init() {
 		_login = String()
 		_fullName = String()
 		_email = String()
@@ -36,7 +36,7 @@ public class UserData{
 		_role = .User
 	}
 	
-	public func GetUserId()->Int{
+	public func GetUserId() -> Int {
 		return _userId
 	}
 }

@@ -635,11 +635,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8YT73R22SD;
+				DEVELOPMENT_TEAM = LL8UYH94A9;
 				INFOPLIST_FILE = "$(SRCROOT)/Autoservice/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zemtsov.avtoservice123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryabinin.avtoservice123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -651,11 +651,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8YT73R22SD;
+				DEVELOPMENT_TEAM = LL8UYH94A9;
 				INFOPLIST_FILE = "$(SRCROOT)/Autoservice/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zemtsov.avtoservice123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryabinin.avtoservice123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
