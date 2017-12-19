@@ -1,14 +1,14 @@
 //
-//  AutoserviceUITests.swift
+//  ServiceCreation.swift
 //  AutoserviceUITests
 //
-//  Created by Autoservice on 30/11/2017.
-//  Copyright © 2017 Autoservice. All rights reserved.
+//  Created by Simon Kulish on 14.12.17.
+//  Copyright © 2017 Kirill Ryabinin. All rights reserved.
 //
 
 import XCTest
 
-class AutoserviceUITests: XCTestCase {
+class ServiceCreation: XCTestCase {
         
     override func setUp() {
         super.setUp()
@@ -26,6 +26,10 @@ class AutoserviceUITests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+    }
+    
+    func test_Can_Create_Service(){
+
     }
     
     func testExample() {
