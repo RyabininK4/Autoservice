@@ -9,121 +9,245 @@
 import XCTest
 
 class RegistrationTests: XCTestCase {
-        
-    override func setUp() {
-        super.setUp()
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+    let app = XCUIApplication()
     
-    func test_Valid_Data(){
-        
-        let app = XCUIApplication()
+	override func setUp() {
+		super.setUp()
+        app.launchArguments += ["UI-Testing"]
+        app.launch()
+        app.buttons["Зарегистрироваться"].tap()
+		continueAfterFailure = false
+	}
+    
+	override func tearDown() {
+        app.launchArguments.removeAll()
+		super.tearDown()
+	}
+	
+	func test_AllFieldsEmpty() {
+        app.buttons["Зарегистрироваться"].tap()
+		XCTAssert(app.staticTexts["Неверные данные"].exists)
+	}
+	
+	func test_LoginEmpty() {
         let button = app.buttons["Зарегистрироваться"]
-        button.tap()
+		let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+		let textField = element.children(matching: .textField).element(boundBy: 1)
+		textField.tap()
+		textField.typeText("Kirill")
+		
+		let textField2 = element.children(matching: .textField).element(boundBy: 2)
+		textField2.tap()
+		textField2.typeText("qwerty@gmail.com")
+		
+		let textField3 = element.children(matching: .textField).element(boundBy: 3)
+		textField3.tap()
+		textField3.typeText("89999999999")
+		
+		let secureTextField = element.children(matching: .secureTextField).element
+		secureTextField.tap()
+		secureTextField.typeText("123")
+		button.tap()
+		
+		XCTAssert(app.staticTexts["Неверные данные"].exists)
+		
+	}
+	
+	func test_FIOEmpty() {
+        let button = app.buttons["Зарегистрироваться"]
+		let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+		let textField = element.children(matching: .textField).element(boundBy: 0)
+		textField.tap()
+		textField.typeText("Kirill")
+		
+		let textField2 = element.children(matching: .textField).element(boundBy: 2)
+		textField2.tap()
+		textField2.typeText("qwerty@gmail.com")
+		
+		let textField3 = element.children(matching: .textField).element(boundBy: 3)
+		textField3.tap()
+		textField3.typeText("89999999999")
+		
+		let secureTextField = element.children(matching: .secureTextField).element
+		secureTextField.tap()
+		secureTextField.typeText("123")
+		button.tap()
+		
+		XCTAssert(app.staticTexts["Неверные данные"].exists)
+	}
+	
+	func test_MailEmpty() {
+        let button = app.buttons["Зарегистрироваться"]
+		let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+		let textField = element.children(matching: .textField).element(boundBy: 0)
+		textField.tap()
+		textField.typeText("Kirill")
+		
+		let textField1 = element.children(matching: .textField).element(boundBy: 1)
+		textField1.tap()
+		textField1.typeText("Kirill")
+		
+		let textField3 = element.children(matching: .textField).element(boundBy: 3)
+		textField3.tap()
+		textField3.typeText("89999999999")
+		
+		let secureTextField = element.children(matching: .secureTextField).element
+		secureTextField.tap()
+		secureTextField.typeText("123")
+		button.tap()
+		
+		XCTAssert(app.staticTexts["Неверные данные"].exists)
+	}
+	
+	func test_PhoneEmpty() {
+		let button = app.buttons["Зарегистрироваться"]
+		let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+		let textField = element.children(matching: .textField).element(boundBy: 0)
+		textField.tap()
+		textField.typeText("Kirill")
+		
+		let textField1 = element.children(matching: .textField).element(boundBy: 1)
+		textField1.tap()
+		textField1.typeText("Kirill")
+		
+		let textField2 = element.children(matching: .textField).element(boundBy: 2)
+		textField2.tap()
+		textField2.typeText("qwerty@gmail.com")
+		
+		let secureTextField = element.children(matching: .secureTextField).element
+		secureTextField.tap()
+		secureTextField.typeText("123")
+		button.tap()
+		
+		XCTAssert(app.staticTexts["Неверные данные"].exists)
+	}
+	
+	func test_PasswordEmpty() {
+		let button = app.buttons["Зарегистрироваться"]
+		let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+		let textField = element.children(matching: .textField).element(boundBy: 0)
+		textField.tap()
+		textField.typeText("Kirill")
+		
+		let textField1 = element.children(matching: .textField).element(boundBy: 1)
+		textField1.tap()
+		textField1.typeText("Kirill")
+		
+		let textField2 = element.children(matching: .textField).element(boundBy: 2)
+		textField2.tap()
+		textField2.typeText("qwerty@gmail.com")
+		
+		let textField3 = element.children(matching: .textField).element(boundBy: 3)
+		textField3.tap()
+		textField3.typeText("89999999999")
+		
+		button.tap()
+		
+		XCTAssert(app.staticTexts["Неверные данные"].exists)
+	}
+	
+	func test_NoEmptyFields() {
+		let button = app.buttons["Зарегистрироваться"]
+		let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+		let textField = element.children(matching: .textField).element(boundBy: 0)
+		textField.tap()
+		textField.typeText("Kirill")
+		
+		let textField1 = element.children(matching: .textField).element(boundBy: 1)
+		textField1.tap()
+		textField1.typeText("Kirill")
+		
+		let textField2 = element.children(matching: .textField).element(boundBy: 2)
+		textField2.tap()
+		textField2.typeText("qwerty@gmail.com")
+		
+		let textField3 = element.children(matching: .textField).element(boundBy: 3)
+		textField3.tap()
+		textField3.typeText("89999999999")
+		
+		let secureTextField = element.children(matching: .secureTextField).element
+		secureTextField.tap()
+		secureTextField.typeText("123")
+		
+		button.tap()
+		
+		XCTAssert(app.staticTexts["Успешно"].exists)
+	}
+    
+    func test_NoEmptyFields_With_Enter(){
+        let button = app.buttons["Зарегистрироваться"]
         
         let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
         let textField = element.children(matching: .textField).element(boundBy: 0)
         textField.tap()
-        textField.typeText("TestingLogin")
+        let timeInterval = Int(Date().timeIntervalSince1970)
+        textField.typeText(String(timeInterval))
         
         let textField2 = element.children(matching: .textField).element(boundBy: 1)
         textField2.tap()
-        textField2.typeText("TestFio")
+        textField2.typeText("artemsfsf")
         
         let textField3 = element.children(matching: .textField).element(boundBy: 2)
         textField3.tap()
-        textField3.typeText("testmail@mail.ru")
+        textField3.typeText("klufone@mail.ru")
         
         let textField4 = element.children(matching: .textField).element(boundBy: 3)
         textField4.tap()
-        textField4.typeText("+70000000001")
+        textField4.typeText("89202932365")
         
         let secureTextField = element.children(matching: .secureTextField).element
         secureTextField.tap()
-        secureTextField.typeText("password")
-        
-        let switch2 = app.switches["1"]
-        switch2.tap()
+        secureTextField.typeText("123")
         button.tap()
-        XCTAssert(app.staticTexts["Успешно"].exists)
+        app.alerts["Успешно"].buttons["OK"].tap()
+        XCTAssert(app.navigationBars["Создание"].exists)
+        app.tabBars.buttons["Профиль"].tap()
+        app.buttons["Выход"].tap()
     }
     
-    func test_No_Password(){
-        
-        let app = XCUIApplication()
+    func test_NoEmptyFields_With_Enter_by_login(){
         let button = app.buttons["Зарегистрироваться"]
-        button.tap()
-        
         let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
         let textField = element.children(matching: .textField).element(boundBy: 0)
         textField.tap()
-        textField.typeText("TestingLogin")
+        let timeInterval = Int(Date().timeIntervalSince1970)
+        textField.typeText(String(timeInterval))
+        
         
         let textField2 = element.children(matching: .textField).element(boundBy: 1)
         textField2.tap()
-        textField2.typeText("TestFio")
+        textField2.typeText("artemsfsf")
         
         let textField3 = element.children(matching: .textField).element(boundBy: 2)
         textField3.tap()
-        textField3.typeText("testmail@mail.ru")
+        textField3.typeText("klufone@mail.ru")
         
         let textField4 = element.children(matching: .textField).element(boundBy: 3)
         textField4.tap()
-        textField4.typeText("+70000000001")
-
-        
-        let switch2 = app.switches["1"]
-        switch2.tap()
-        button.tap()
-        XCTAssert(app.staticTexts["Неверные данные"].exists)
-    }
-    
-    func test_No_Login(){
-        
-        let app = XCUIApplication()
-        let button = app.buttons["Зарегистрироваться"]
-        button.tap()
-        
-        let element = app.otherElements.containing(.navigationBar, identifier:"Регистрация").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
-        
-        let textField2 = element.children(matching: .textField).element(boundBy: 1)
-        textField2.tap()
-        textField2.typeText("TestFio")
-        
-        let textField3 = element.children(matching: .textField).element(boundBy: 2)
-        textField3.tap()
-        textField3.typeText("testmail@mail.ru")
-        
-        let textField4 = element.children(matching: .textField).element(boundBy: 3)
-        textField4.tap()
-        textField4.typeText("+70000000001")
+        textField4.typeText("89202932365")
         
         let secureTextField = element.children(matching: .secureTextField).element
         secureTextField.tap()
-        secureTextField.typeText("password")
-        
-        let switch2 = app.switches["1"]
-        switch2.tap()
+        secureTextField.typeText("123")
+        app.switches["1"].tap()
         button.tap()
-        XCTAssert(app.staticTexts["Неверные данные"].exists)
+        
+        let loginElement = app.otherElements.containing(.navigationBar, identifier:"Вход").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+       
+        let textFieldLogin = loginElement.children(matching: .textField).element
+        textFieldLogin.tap()
+        textFieldLogin.typeText(String(timeInterval))
+        
+        let passTextField = loginElement.children(matching: .secureTextField).element
+        passTextField.tap()
+        passTextField.typeText("123")
+        app.buttons["Войти"].tap()
+        XCTAssert(app.navigationBars["Создание"].exists)
+        app.tabBars.buttons["Профиль"].tap()
+        app.buttons["Выход"].tap()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
     
+	
 }
