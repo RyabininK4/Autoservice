@@ -43,17 +43,24 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 	private func InitializeDatePicker(){
 		_datePicker = InputViewManager.InitializeDatePicker(view: self.view)
 		_datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        _datePicker.accessibilityIdentifier = "datePicker"
 	}
 	
 	private func InitializeValuePicker(){
 		_pickerView = InputViewManager.InitializeValuePicker(view: self.view)
+        _pickerView.accessibilityIdentifier = "pickerView"
+        _pickerView.inputView?.accessibilityIdentifier = "test"
 	}
 	
 	private func InitializeToolBar(){
 		let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(AddingRepairRecordTableViewController.doneClick))
 		let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 		let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(AddingRepairRecordTableViewController.cancelClick))
+        cancelButton.accessibilityIdentifier = "toolBarCancel"
+        doneButton.accessibilityIdentifier = "toolBarDone"
 		_toolBar = InputViewManager.InitializeToolBar(view:self.view,toolBarButtons:[cancelButton, spaceButton, doneButton])
+        _toolBar.accessibilityIdentifier = "toolBar"
+        
 	}
 	
 	//MARK: - TableView
