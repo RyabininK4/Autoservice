@@ -13,7 +13,7 @@ public class RecordData {
 	public var id : Int
 	public var userId : Int
 	public var date : String
-	public var duration : Int
+	public var duration : String
 	public var timeIntervalIndex : Int
 	public var mark:String
 	public var model:String
@@ -22,7 +22,7 @@ public class RecordData {
 	public var repairDuration:String
 	public var repairState:String
 	
-	public init(id : Int = Constants.INVALIDE_INT_VALUE, userId : Int = UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY), date : String = String(), duration : Int = Constants.INVALIDE_INT_VALUE, timeIntervalIndex : Int = Constants.INVALIDE_INT_VALUE, mark : String = String(), model : String = String(), repairType : String = String(), state : String = String(), repairDuration : String = String(), repairState : String = String()) {
+	public init(id : Int = Constants.INVALIDE_INT_VALUE, userId : Int = UserDefaults.standard.integer(forKey: Constants.USER_ID_USER_DEFAULTS_KEY), date : String = String(), duration : String = String(), timeIntervalIndex : Int = Constants.INVALIDE_INT_VALUE, mark : String = String(), model : String = String(), repairType : String = String(), state : String = String(), repairDuration : String = String(), repairState : String = String()) {
 		self.id = id
 		self.userId = userId
 		self.date = date

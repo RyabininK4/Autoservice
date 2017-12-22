@@ -26,7 +26,7 @@ public class InputViewManager{
 		_toolBar.frame = CGRect(x:0,y:view.frame.height - 200 - _toolBar.frame.height - NAV_BAR_ITEM_HEIGHT,
 								width:view.frame.width,height:_toolBar.frame.height)
 		_toolBar.isHidden = true
-		view.addSubview(_toolBar)
+        view.addSubview(_toolBar)
 		return _toolBar
 	}
 	
@@ -35,7 +35,9 @@ public class InputViewManager{
 		_pickerView.backgroundColor = UIColor.white
 		_pickerView.frame = CGRect(x: 0, y: view.frame.height - 200 - NAV_BAR_ITEM_HEIGHT, width: view.frame.width, height: 200)
 		_pickerView.isHidden = true
-		view.addSubview(_pickerView)
+                view.addSubview(_pickerView)
+        
+
 		return _pickerView
 	}
 	
@@ -46,7 +48,8 @@ public class InputViewManager{
 		datePicker.isHidden = true
 		datePicker.minimumDate = Date()
 		datePicker.maximumDate = Calendar.current.date(byAdding: .month, value: 3, to: Date())
-		view.addSubview(datePicker)
+        view.addSubview(datePicker)
+        
 		return datePicker
 	}
 }

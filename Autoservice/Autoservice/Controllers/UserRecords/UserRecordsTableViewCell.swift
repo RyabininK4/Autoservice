@@ -19,7 +19,7 @@ class UserRecordsTableViewCell: UITableViewCell {
 	
 	public func SetData(recordData:RecordData){
 		self.date.text = recordData.date
-		self.time.text = Constants.TIME_INTERVALS_DICTIONARY[recordData.timeIntervalIndex]
+        self.time.text = Constants.TIME_INTERVALS_DICTIONARY[recordData.timeIntervalIndex]?[0...4]
 		self.status.text = recordData.repairState
 		self.desc.text = recordData.repairType
 		SetStateColor(recordData.repairState)

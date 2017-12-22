@@ -31,6 +31,7 @@ class UserRecordsViewController: UIViewController, UITableViewDelegate, UITableV
 		if let isUserAdmin = (RequestManager.getUserData(userID: _userId)["IsManager"]) as? String{
 			_isUserManager = (isUserAdmin == "FALSE") ? false : true
 		}
+        tableView.allowsSelection = _isUserManager
 		tableView.reloadData()
 	}
 	

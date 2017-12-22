@@ -24,6 +24,7 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 	private let _marks:[String] = RequestManager.getAutoBrands()
 	private var _models:[String] = []
 	private let NAV_BAR_ITEM_HEIGHT:CGFloat = 44
+    private var isTimeAvailible = false
 	private var _selectedTypeOfPicker:Enums.AddingRecordPagePickerStyle?
 	
 	// MARK: - Lifecycle Methods
@@ -42,13 +43,13 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 	
 	private func InitializeDatePicker(){
 		_datePicker = InputViewManager.InitializeDatePicker(view: self.view)
-		_datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         _datePicker.accessibilityIdentifier = "datePicker"
 	}
 	
 	private func InitializeValuePicker(){
 		_pickerView = InputViewManager.InitializeValuePicker(view: self.view)
         _pickerView.accessibilityIdentifier = "pickerView"
+        _pickerView.isAccessibilityElement = true
         _pickerView.inputView?.accessibilityIdentifier = "test"
 	}
 	
@@ -82,7 +83,9 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 			detailCellInfo = _record.date
 		case Enums.CellInAddingRecord.Time.rawValue:
 			cellIdentifier = "RecordTime"
-			detailCellInfo = Constants.TIME_INTERVALS_DICTIONARY[_record.timeIntervalIndex]!
+            if let timeInterval = Constants.TIME_INTERVALS_DICTIONARY[_record.timeIntervalIndex] {
+                detailCellInfo = timeInterval
+            }
 		case Enums.CellInAddingRecord.Mark.rawValue:
 			cellIdentifier = "CarMarkCell"
 			detailCellInfo = _record.mark
@@ -111,13 +114,15 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 	}
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let datesAlert = AlertManager.CreateDialog(inputTitle: "Внимание", inputMessage: "Свободные промежутки отсутсвуют", actionsDict: ["OK":{_ in}])
 		switch indexPath.row {
 		case Enums.CellInAddingRecord.Date.rawValue:
+            _selectedTypeOfPicker = Enums.AddingRecordPagePickerStyle.Date
 			doDatePicker(.Date)
 		case Enums.CellInAddingRecord.Time.rawValue:
 			_selectedTypeOfPicker = Enums.AddingRecordPagePickerStyle.Time
 			_availibleIntervals = RequestManager.getAvailibleIntervals(_record.date)
-			doDatePicker(.Value)
+            (isTimeAvailible) ? doDatePicker(.Value) : present(datesAlert, animated: true)
 		case Enums.CellInAddingRecord.Mark.rawValue:
 			_selectedTypeOfPicker = Enums.AddingRecordPagePickerStyle.Mark
 			doDatePicker(.Value)
@@ -148,7 +153,9 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 				return _marks.count
 			case Enums.AddingRecordPagePickerStyle.Model:
 				return _models.count
-			}
+            default: break
+            }
+            
 		}
 		return 0
 	}
@@ -163,29 +170,12 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 				return _marks[row]
 			case Enums.AddingRecordPagePickerStyle.Model:
 				return _models[row]
-			}
+            case .Date:
+                break
+            }
 		}
 		return nil
 	}
-	
-	// delegate method called when the row was selected.
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		
-		if _selectedTypeOfPicker != nil{
-			switch _selectedTypeOfPicker! {
-			case Enums.AddingRecordPagePickerStyle.Time:
-				_record.timeIntervalIndex = _availibleIntervals[row]
-			case Enums.AddingRecordPagePickerStyle.Mark:
-				_record.mark = _marks[row]
-				_models = RequestManager.getAutoModels(brand:_record.mark)
-			case Enums.AddingRecordPagePickerStyle.Model:
-				_record.model = _models[row]
-				
-			}
-		}
-		RecordTableView.reloadData()
-	}
-	
 	
 	// MARK: - Navigation
 	
@@ -196,7 +186,8 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 	}
 	
 	private func doDatePicker(_ type:Enums.PickerType){
-		doneClick()
+		
+        selectByDefault()
 		switch type {
 		case .Value:
 			_pickerView.isHidden = false
@@ -208,10 +199,30 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 		}
 		self._toolBar.isHidden = false
 	}
+    
+    func selectByDefault(){
+        _pickerView.selectRow(0, inComponent: 0, animated: false)
+        _datePicker.setDate(Date(), animated: false)
+    }
 	
 	//MARK: - Actions
 	
 	@objc func doneClick() {
+        let row = _pickerView.selectedRow(inComponent: 0)
+        if _selectedTypeOfPicker != nil{
+            switch _selectedTypeOfPicker! {
+            case Enums.AddingRecordPagePickerStyle.Time:
+                _record.timeIntervalIndex = _availibleIntervals[row]
+            case Enums.AddingRecordPagePickerStyle.Mark:
+                _record.mark = _marks[row]
+                _models = RequestManager.getAutoModels(brand:_record.mark)
+            case Enums.AddingRecordPagePickerStyle.Model:
+                _record.model = _models[row]
+                
+            case .Date:
+                datePickerValueChanged(_datePicker)
+            }
+        }
 		_pickerView.isHidden = true
 		_datePicker.isHidden = true
 		_toolBar.isHidden = true
@@ -229,7 +240,13 @@ class AddingRepairRecordTableViewController: BaseTableViewController, UIPickerVi
 		let dateFormatter: DateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "dd/MM/yyyy"
 		let selectedDate: String = dateFormatter.string(from: sender.date)
+        _record.timeIntervalIndex = -1
 		_record.date = selectedDate
+        if (RequestManager.getAvailibleIntervals(_record.date).count == 0){
+            let alert = AlertManager.CreateDialog(inputTitle: "Внимание", inputMessage: "Свободные промежутки отсутсвуют", actionsDict: ["OK":{_ in}])
+            present(alert, animated: true)
+        }
+        isTimeAvailible = RequestManager.getAvailibleIntervals(_record.date).count != 0
 		RecordTableView.reloadData()
 	}
 	

@@ -54,6 +54,7 @@ public class Enums{
 		case Time = 1
 		case Mark = 2
 		case Model = 3
+        case Date = 4
 	}
 	
 	public enum ManagerEditPageDatePickerStyle:Int{
@@ -65,6 +66,8 @@ public class Enums{
 		case Time = 1
 		case State = 2
 		case Duration = 3
+        case Date = 4
+        case FinalDate = 5
 	}
 	
 	public enum PickerType{
