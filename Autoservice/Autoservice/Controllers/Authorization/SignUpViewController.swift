@@ -32,6 +32,10 @@ class SignUpViewController: BaseViewController {
 		
 		addKeyboardHideHanlder()
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        addBackButton()
+    }
 	
 	private func registration(){
 		if ((name.text?.isEmpty)! || (email.text?.isEmpty)! ||

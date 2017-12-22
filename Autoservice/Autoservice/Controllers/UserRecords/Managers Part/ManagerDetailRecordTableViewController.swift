@@ -22,6 +22,9 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 	private var _pickerView = UIPickerView()
 	private var _datePicker = UIDatePicker()
 	private var _availibleIntervals:[Int] = []
+    private var _availibleIntevalsTitles:[String] = []
+    private var _availibleIntevalsWithOutDescription:[String] = []
+    private var _areDatesAvailible = true
 	
 	// MARK: - Lifecycle Methods
 	
@@ -39,7 +42,6 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 	
 	private func InitializeDatePicker(){
 		_datePicker = InputViewManager.InitializeDatePicker(view: self.view)
-		_datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
 	}
 	
 	private func InitializeValuePicker(){
@@ -76,7 +78,10 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 		case Enums.CellInMangerEdit.Time.rawValue:
 			isCellAvailible = areStartDateAndDurationAvailible
 			cellIdentifier = "RecordTime"
-			detailCellInfo = Constants.TIME_INTERVALS_DICTIONARY[_record.timeIntervalIndex]![0...4]
+            if let timeIntervalValue = Constants.TIME_INTERVALS_DICTIONARY[_record.timeIntervalIndex]{
+                detailCellInfo = timeIntervalValue[0...4]
+            }
+			
 		case Enums.CellInMangerEdit.RepairStatus.rawValue:
 			cellIdentifier = "RepairStatusCell"
 			detailCellInfo = _record.repairState
@@ -86,9 +91,17 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 		case Enums.CellInMangerEdit.RepairType.rawValue:
 			cellIdentifier = "RepairType"
 		case Enums.CellInMangerEdit.Duration.rawValue:
-			let interval = Constants.TIME_INTERVALS_DICTIONARY[_record.timeIntervalIndex]!
 			cellIdentifier = "DurationTime"
-			detailCellInfo = getStringLenghtFromIntervalString(interval)
+            var temp = String()
+            if (_record.duration.count >= 5){
+                temp.append(contentsOf: _record.duration[0...1])
+                temp.append(contentsOf: "ч")
+                temp.append(contentsOf: _record.duration[3...4])
+                temp.append(contentsOf: "мин")
+            }
+            
+			detailCellInfo = temp
+            
 		default:
 			break
 		}
@@ -113,19 +126,29 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 		let alertTitle = "Внимание"
 		let alertMessage = "Для статуса '" + _record.repairState + "' данное поле неизменяемо"
 		let alert = AlertManager.CreateDialog(inputTitle: alertTitle, inputMessage: alertMessage, actionsDict: ["ОК":{_ in }])
+        let datesAlert = AlertManager.CreateDialog(inputTitle: "Внимание", inputMessage: "Свободные промежутки отсутсвуют", actionsDict: ["OK":{_ in}])
 		let areStartDateAndDurationAvailible:Bool = (_record.repairState == Constants.REPAIR_STATE.first)
 		switch indexPath.row {
 		case Enums.CellInMangerEdit.Date.rawValue:
+            _selectedTypeOfPicker = Enums.ManagerEditPagePickerStyle.Date
 			_selectedTypeOfDatePicker = .StartDate
+            
 			(areStartDateAndDurationAvailible) ? doPicker(.Date) : present(alert,animated: true)
 		case Enums.CellInMangerEdit.Time.rawValue:
 			_selectedTypeOfPicker = Enums.ManagerEditPagePickerStyle.Time
 			_availibleIntervals = RequestManager.getAvailibleIntervals(_record.date)
-			(areStartDateAndDurationAvailible) ? doPicker(.Value) : present(alert,animated: true)
+            (_areDatesAvailible)
+                ? ((areStartDateAndDurationAvailible) ? doPicker(.Value) : present(alert,animated: true))
+                : present(datesAlert,animated: true)
 		case Enums.CellInMangerEdit.RepairStatus.rawValue:
 			_selectedTypeOfPicker = Enums.ManagerEditPagePickerStyle.State
 			doPicker(.Value)
+        case Enums.CellInMangerEdit.Duration.rawValue:
+            _availibleIntevalsTitles = getAvailibleDurationsForStartTimeForTitle()
+            _selectedTypeOfPicker = Enums.ManagerEditPagePickerStyle.Duration
+            (_areDatesAvailible) ? doPicker(.Value) : present(datesAlert,animated: true)
 		case Enums.CellInMangerEdit.FinalDate.rawValue:
+            _selectedTypeOfPicker = Enums.ManagerEditPagePickerStyle.FinalDate
 			_selectedTypeOfDatePicker = .FinalDate
 			doPicker(.Date)
 		case Enums.CellInMangerEdit.RepairType.rawValue:
@@ -138,9 +161,9 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 	//MARK: - Picker
 	
 	private func doPicker(_ type:Enums.PickerType){
-		doneClick()
-		switch type {
-		case .Value:
+		selectByDefault()
+        switch type {
+        case .Value:
 			_pickerView.isHidden = false
 			_pickerView.delegate = self
 			_pickerView.dataSource = self
@@ -154,6 +177,11 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 	public func SetRecordData(_ record:RecordData){
 		_record = record
 	}
+    
+    func selectByDefault(){
+        _pickerView.selectRow(0, inComponent: 0, animated: false)
+        _datePicker.setDate(Date(), animated: false)
+    }
 	
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		//TODO CHANGE TO SWITCH
@@ -169,8 +197,12 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 			case Enums.ManagerEditPagePickerStyle.State:
 				return Constants.REPAIR_STATE.count
 			case .Duration:
-				break
-			}
+                return getAvailibleDurationsForStartTime().count
+            case .Date:
+                break
+            case .FinalDate:
+                break
+            }
 		}
 		return 0
 	}
@@ -183,28 +215,15 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 				return (Constants.TIME_INTERVALS_DICTIONARY[_availibleIntervals[row]]!)[0...4]
 			case Enums.ManagerEditPagePickerStyle.State:
 				return Constants.REPAIR_STATE[row]
-				
 			case .Duration:
-				break
-			}
+                return _availibleIntevalsTitles[row]
+            case .Date:
+                break
+            case .FinalDate:
+                break
+            }
 		}
 		return nil
-	}
-	
-	// delegate method called when the row was selected.
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		
-		if _selectedTypeOfPicker != nil{
-			switch _selectedTypeOfPicker! {
-			case Enums.ManagerEditPagePickerStyle.Time:
-				_record.timeIntervalIndex = _availibleIntervals[row]
-			case Enums.ManagerEditPagePickerStyle.State:
-				_record.repairState = Constants.REPAIR_STATE[row]
-			case .Duration:
-				break
-			}
-		}
-		recordTableView.reloadData()
 	}
 	
 	private func updateRecord(){
@@ -240,6 +259,46 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 		}
 		return result
 	}
+    
+    private func getAvailibleDurationsForStartTime()->[String]{
+        let emptyTimesForCreateRecord = RequestManager.getAvailibleIntervals(_record.date)
+        var result:[String] = []
+        var iter = 0
+        
+        if let currentIndex = Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY.first(where: { (key,value) -> Bool in
+            value == _record.duration})?.key{
+            for index in _record.timeIntervalIndex..<Constants.REVERT_TIME_INTERVALS_DICTIONARY.count {
+                
+                if let resValue = Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY[iter] , emptyTimesForCreateRecord.contains(index) {
+                    result.append(resValue)
+                }
+                else{
+                    if let resValue = Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY[iter] , iter <= currentIndex{
+                        result.append(resValue)
+                    }
+                    else{
+                        break
+                    }
+                }
+                iter += 1
+            }
+        }
+        _availibleIntevalsWithOutDescription = result
+        return result
+    }
+    
+    private func getAvailibleDurationsForStartTimeForTitle()->[String]{
+        var result:[String] = []
+        for value in getAvailibleDurationsForStartTime(){
+            var temp = String()
+            temp.append(contentsOf: value[0...1])
+            temp.append(contentsOf: "ч")
+            temp.append(contentsOf: value[3...4])
+            temp.append(contentsOf: "мин")
+            result.append(temp)
+        }
+        return result
+    }
 	
 	//MARK: - Actions
 	
@@ -261,14 +320,64 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 		switch(_selectedTypeOfDatePicker!){
 		case Enums.ManagerEditPageDatePickerStyle.StartDate:
 			_record.date = selectedDate
-			
+            if let firstDate = RequestManager.getAvailibleIntervals(selectedDate).first {
+                _record.duration = Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY[0]!
+                _record.timeIntervalIndex = firstDate
+            }else{
+                _record.duration = String()
+                _record.timeIntervalIndex = -1
+            }
 		case Enums.ManagerEditPageDatePickerStyle.FinalDate:
 			_record.repairDuration = selectedDate
 		}
+        
+        if (RequestManager.getAvailibleIntervals(_record.date).count == 0){
+            let alert = AlertManager.CreateDialog(inputTitle: "Внимание", inputMessage: "Свободные промежутки отсутсвуют", actionsDict: ["OK":{_ in}])
+            present(alert, animated: true)
+        }
+        _areDatesAvailible = RequestManager.getAvailibleIntervals(_record.date).count != 0
+        
 		recordTableView.reloadData()
 	}
 	
 	@objc func doneClick() {
+        print(_pickerView.selectedRow(inComponent: 0))
+        let row = _pickerView.selectedRow(inComponent: 0)
+        if _selectedTypeOfPicker != nil{
+            switch _selectedTypeOfPicker! {
+            case Enums.ManagerEditPagePickerStyle.Time:
+                _availibleIntevalsTitles = getAvailibleDurationsForStartTimeForTitle()
+                    _record.timeIntervalIndex = (row < _availibleIntervals.count) ? _availibleIntervals[row] : -1
+                
+            case Enums.ManagerEditPagePickerStyle.State:
+                _record.repairState = Constants.REPAIR_STATE[row]
+            case .Duration:
+                if let index = Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY.first(where: { (key,value) -> Bool in
+                    if (row < _availibleIntevalsWithOutDescription.count){
+                        let expected = _availibleIntevalsWithOutDescription[row]
+                        return value == expected
+                        
+                    }
+                    return false
+                }
+                    ){
+                    if let value = Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY[index.key]{
+                        _record.duration = value
+                    }
+                }
+                break
+            case .Date:
+                datePickerValueChanged(_datePicker)
+                break
+            case .FinalDate:
+                datePickerValueChanged(_datePicker)
+                break
+                
+            }
+            
+        }
+        
+        recordTableView.reloadData()
 		_pickerView.isHidden = true
 		_datePicker.isHidden = true
 		_toolBar.isHidden = true
@@ -289,4 +398,6 @@ class ManagerDetailRecordTableViewController: BaseTableViewController,UIPickerVi
 			destination.SetRecord(_record)
 		}
 	}
+    
 }
+

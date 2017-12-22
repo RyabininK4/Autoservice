@@ -214,9 +214,11 @@ class RequestManager {
 		query.append(URLQueryItem(name: _userIdAttr, value: String(record.userId)))
 		query.append(URLQueryItem(name: _dateAttr, value: String(record.date)))
 		let stringValueFromRecord = Constants.TIME_INTERVALS_DICTIONARY[record.timeIntervalIndex]
+        if (stringValueFromRecord != nil){
+            let startTime:String = stringValueFromRecord![0...4]
+            query.append(URLQueryItem(name: _timeAttr, value: startTime))
+        }
 		
-		let startTime:String = stringValueFromRecord![0...4]
-		query.append(URLQueryItem(name: _timeAttr, value: startTime))
 		query.append(URLQueryItem(name: _autoAttr, value: record.mark + " " + record.model))
 		query.append(URLQueryItem(name: _typeAttr, value: record.repairType))
 		
@@ -245,8 +247,11 @@ class RequestManager {
 					if let DateValue = message["Date"] as? String{
 						record.date = DateValue
 					}
-					if let DurationValue = message["Duration"] as? Int{
-						record.duration = DurationValue
+					if let DurationValue = message["Duration"] as? String{
+                        
+						record.duration = (DurationValue == "0")
+                            ? Constants.TIME_INTERVALS_DURATION_BY_INDEX_DICTIONARY[0]!
+                            :DurationValue
 					}
 					print(message["Id"])
 					if let IdValue = message["Id"] as? String{
@@ -294,20 +299,23 @@ class RequestManager {
 		var updateQuery:[URLQueryItem] = []
 		var verifyQuery:[URLQueryItem] = []
 		
-		let stringValueFromRecord = Constants.TIME_INTERVALS_DICTIONARY[record.timeIntervalIndex]
-		let startTime:String = stringValueFromRecord![0...4]
+        if let stringValueFromRecord = Constants.TIME_INTERVALS_DICTIONARY[record.timeIntervalIndex]{
+            let startTime:String = stringValueFromRecord[0...4]
+            verifyQuery.append(URLQueryItem(name: _timeAttr, value: startTime))
+        }
+		
 		
 		updateQuery.append(URLQueryItem(name: _typeAttr, value: String(record.repairType)))
 		updateQuery.append(URLQueryItem(name: _stateAttr, value: String(record.state)))
 		updateQuery.append(URLQueryItem(name: _idAttr, value: String(record.id)))
 		updateQuery.append(URLQueryItem(name: _repairStateAttr, value: String(record.repairState)))
-		updateQuery.append(URLQueryItem(name: _repairDurationAttr, value: String(record.repairDuration)))
+        if (record.repairDuration != "Не подтверждён"){
+            updateQuery.append(URLQueryItem(name: _repairDurationAttr, value: String(record.repairDuration)))
+        }
 		
-		verifyQuery.append(URLQueryItem(name: _timeAttr, value: startTime))
+		
 		verifyQuery.append(URLQueryItem(name: _dateAttr, value: record.date))
-		verifyQuery.append(URLQueryItem(name: _durationAttr, value: "00:30"))
-		//        TODO REWoRK
-		//        verifyQuery.append(URLQueryItem(name: _durationAttr, value: String(record.Duration)))
+		verifyQuery.append(URLQueryItem(name: _durationAttr, value: record.duration))
 		verifyQuery.append(URLQueryItem(name: _idAttr, value: String(record.id)))
 		
 		let messagesByUpdate = MakeRequest(_updServ,updateQuery)["Message"]
